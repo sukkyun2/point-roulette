@@ -56,3 +56,8 @@ tasks.withType<Test> {
 ktlint {
     version.set("1.7.0")
 }
+
+tasks.bootJar {
+    archiveBaseName.set(rootProject.name)
+    archiveVersion.set("")
+}
