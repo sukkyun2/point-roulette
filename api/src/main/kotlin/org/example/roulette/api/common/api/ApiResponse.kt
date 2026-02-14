@@ -1,8 +1,14 @@
 package org.example.roulette.api.common.api
 
+import io.swagger.v3.oas.annotations.media.Schema
+
+@Schema(name = "ApiResponse", description = "API 응답 공통 포맷")
 data class ApiResponse<T>(
+    @Schema(description = "응답 코드", example = "200")
     val code: String,
+    @Schema(description = "응답 메시지", example = "성공")
     val message: String?,
+    @Schema(description = "응답 데이터")
     val data: T? = null,
 ) {
     companion object {
