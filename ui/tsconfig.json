@@ -19,7 +19,7 @@
       "@shared/*": ["./packages/shared/src/*"]
     }
   },
-  "files": [],
+  "include": ["orval.config.ts"],
   "references": [
     { "path": "./packages/shared" },
     { "path": "./packages/user-app" },
