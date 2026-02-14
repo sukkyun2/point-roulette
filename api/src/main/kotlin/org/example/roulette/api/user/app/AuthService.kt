@@ -9,9 +9,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class AuthService(
     private val userQueryService: UserQueryService,
-    private val jwtUtil: JwtUtil
+    private val jwtUtil: JwtUtil,
 ) {
-    
     fun login(nickname: String): LoginResult {
         val user = userQueryService.findByNickname(nickname) ?: throw NoDataException()
         val token = jwtUtil.generateToken(user.userId, user.nickname)
@@ -19,7 +18,7 @@ class AuthService(
         return LoginResult(
             token = token,
             userId = user.userId,
-            nickname = user.nickname
+            nickname = user.nickname,
         )
     }
 }
@@ -27,5 +26,5 @@ class AuthService(
 data class LoginResult(
     val token: String,
     val userId: Long,
-    val nickname: String
+    val nickname: String,
 )
