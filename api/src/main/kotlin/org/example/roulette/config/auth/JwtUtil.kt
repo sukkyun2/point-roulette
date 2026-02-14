@@ -6,7 +6,7 @@ import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.security.Key
-import java.util.*
+import java.util.Date
 import javax.crypto.SecretKey
 
 @Component
@@ -14,15 +14,19 @@ class JwtUtil(
     @Value("\${jwt.secret}")
     private val secret: String,
     @Value("\${jwt.expiration}")
-    private val expiration: Long
+    private val expiration: Long,
 ) {
     private val key: SecretKey = Keys.hmacShaKeyFor(secret.toByteArray())
 
-    fun generateToken(userId: Long, nickname: String): String {
+    fun generateToken(
+        userId: Long,
+        nickname: String,
+    ): String {
         val now = Date()
         val expiryDate = Date(now.time + expiration)
 
-        return Jwts.builder()
+        return Jwts
+            .builder()
             .subject(userId.toString())
             .claim("nickname", nickname)
             .issuedAt(now)
@@ -31,9 +35,10 @@ class JwtUtil(
             .compact()
     }
 
-    fun validateToken(token: String): Boolean {
-        return try {
-            Jwts.parser()
+    fun validateToken(token: String): Boolean =
+        try {
+            Jwts
+                .parser()
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(token)
@@ -41,7 +46,6 @@ class JwtUtil(
         } catch (e: Exception) {
             false
         }
-    }
 
     fun getUserIdFromToken(token: String): Long {
         val claims = getClaims(token)
@@ -53,11 +57,11 @@ class JwtUtil(
         return claims.get("nickname", String::class.java)
     }
 
-    private fun getClaims(token: String): Claims {
-        return Jwts.parser()
+    private fun getClaims(token: String): Claims =
+        Jwts
+            .parser()
             .verifyWith(key)
             .build()
             .parseSignedClaims(token)
             .payload
-    }
 }

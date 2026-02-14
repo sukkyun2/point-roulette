@@ -10,11 +10,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 class WebConfig(
     private val authInterceptor: AuthInterceptor,
-    private val currentUserArgumentResolver: CurrentUserArgumentResolver
+    private val currentUserArgumentResolver: CurrentUserArgumentResolver,
 ) : WebMvcConfigurer {
-
     override fun addInterceptors(registry: InterceptorRegistry) {
-        registry.addInterceptor(authInterceptor)
+        registry
+            .addInterceptor(authInterceptor)
             .addPathPatterns("/api/**")
             .excludePathPatterns("/api/auth/login")
     }
