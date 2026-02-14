@@ -5,16 +5,16 @@ import { useAuth } from '../contexts/AuthContext';
 export const LoginForm: React.FC = () => {
   const [nickname, setNickname] = useState('');
   const { setUser, refreshUser } = useAuth();
-  
+
   const loginMutation = useLoginMutation({
-    onSuccess: (userData) => {
-      if(!userData) return alert("등록되지않은 닉네임입니다");
+    onSuccess: userData => {
+      if (!userData) return alert('등록되지않은 닉네임입니다');
 
       localStorage.setItem('token', userData.token);
       setUser({
         id: userData.userId,
         nickname: userData.nickname,
-        token: userData.token
+        token: userData.token,
       });
       refreshUser();
     },
@@ -26,7 +26,7 @@ export const LoginForm: React.FC = () => {
       alert('닉네임을 입력해주세요.');
       return;
     }
-    
+
     loginMutation.mutate({
       data: { nickname: nickname.trim() },
     });
@@ -37,25 +37,30 @@ export const LoginForm: React.FC = () => {
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900">포인트 룰렛</h2>
-          <p className="mt-2 text-gray-600">닉네임을 입력하여 게임에 참여하세요</p>
+          <p className="mt-2 text-gray-600">
+            닉네임을 입력하여 게임에 참여하세요
+          </p>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="nickname" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="nickname"
+              className="block text-sm font-medium text-gray-700"
+            >
               닉네임
             </label>
             <input
               type="text"
               id="nickname"
               value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
+              onChange={e => setNickname(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               placeholder="닉네임을 입력하세요"
               disabled={loginMutation.isPending}
             />
           </div>
-          
+
           <button
             type="submit"
             disabled={loginMutation.isPending}

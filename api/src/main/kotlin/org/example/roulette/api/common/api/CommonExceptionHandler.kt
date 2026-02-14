@@ -13,9 +13,7 @@ class CommonExceptionHandler {
     private val logger = LoggerFactory.getLogger(CommonExceptionHandler::class.java)
 
     @ExceptionHandler(NoDataException::class)
-    fun noDataException(ex: NoDataException): ApiResponse<Void?> {
-        return ApiResponse.nodata()
-    }
+    fun noDataException(ex: NoDataException): ApiResponse<Void?> = ApiResponse.nodata()
 
     @ExceptionHandler(NoHandlerFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

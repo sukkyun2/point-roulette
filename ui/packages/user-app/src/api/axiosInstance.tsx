@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-const BASE_URL = (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:8080';
+const BASE_URL =
+  (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 const axiosClient = axios.create({
   baseURL: BASE_URL,
@@ -12,24 +13,24 @@ const axiosClient = axios.create({
 
 // Request interceptor for adding auth tokens
 axiosClient.interceptors.request.use(
-  (config) => {
+  config => {
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
   }
 );
 
 // Response interceptor for handling errors
 axiosClient.interceptors.response.use(
-  (response) => {
+  response => {
     return response;
   },
-  (error) => {
+  error => {
     if (error.response?.status === 401) {
       // Handle unauthorized access
       localStorage.removeItem('token');
@@ -42,7 +43,10 @@ axiosClient.interceptors.response.use(
   }
 );
 
-export const axiosInstance = <T = any>(config: AxiosRequestConfig, options?: AxiosRequestConfig): Promise<T> => {
+export const axiosInstance = <T = any,>(
+  config: AxiosRequestConfig,
+  options?: AxiosRequestConfig
+): Promise<T> => {
   const source = axios.CancelToken.source();
   const promise = axiosClient({
     ...config,

@@ -18,7 +18,7 @@
     "build": "npx tsc",
     "dev": "npx tsc --watch",
     "lint": "npx eslint src",
-    "type-check": "npx tsc --noEmit", 
+    "type-check": "npx tsc --noEmit",
     "clean": "rm -rf dist"
   },
   "dependencies": {

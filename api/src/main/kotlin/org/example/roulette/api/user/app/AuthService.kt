@@ -13,11 +13,11 @@ class AuthService(
 ) {
     fun login(nickname: String): LoginResult {
         val user = userQueryService.findByNickname(nickname) ?: throw NoDataException()
-        val token = jwtUtil.generateToken(user.userId, user.nickname)
+        val token = jwtUtil.generateToken(user.id, user.nickname)
 
         return LoginResult(
             token = token,
-            userId = user.userId,
+            userId = user.id,
             nickname = user.nickname,
         )
     }

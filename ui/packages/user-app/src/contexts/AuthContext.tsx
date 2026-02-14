@@ -17,9 +17,11 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
-  
+
   const { data, isLoading, error, refetch } = useGetCurrentUser({
     query: {
       enabled: !!localStorage.getItem('token'),
@@ -28,7 +30,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   useEffect(() => {
-    if (data?.data && typeof data.data === 'object' && 'id' in data.data && 'nickname' in data.data) {
+    if (
+      data?.data &&
+      typeof data.data === 'object' &&
+      'id' in data.data &&
+      'nickname' in data.data
+    ) {
       setUser(data.data as unknown as User);
     } else if (error) {
       localStorage.removeItem('token');

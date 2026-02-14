@@ -22,7 +22,7 @@ export const createBaseConfig = (dirname: string, port: number) =>
       target: 'esnext',
       rollupOptions: {
         output: {
-          manualChunks: (id) => {
+          manualChunks: id => {
             // Vendor chunk for core React dependencies
             if (id.includes('node_modules')) {
               if (id.includes('react') || id.includes('react-dom')) {

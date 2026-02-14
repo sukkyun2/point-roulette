@@ -1,0 +1,9 @@
+{
+  "hooks": {
+    "tool-call-complete": {
+      "Edit": "cd api && ./gradlew ktlintFormat && cd ../ui && pnpm format",
+      "Write": "cd api && ./gradlew ktlintFormat && cd ../ui && pnpm format", 
+      "MultiEdit": "cd api && ./gradlew ktlintFormat && cd ../ui && pnpm format"
+    }
+  }
+}

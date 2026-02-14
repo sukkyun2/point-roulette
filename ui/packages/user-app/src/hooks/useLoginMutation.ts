@@ -13,7 +13,7 @@ type LoginMutationOptions = {
 export const useLoginMutation = (options?: LoginMutationOptions) => {
   return useLogin({
     mutation: {
-      onSuccess: (response) => {
+      onSuccess: response => {
         const responseData = response.data as LoginResponseData | undefined;
         options?.onSuccess?.(responseData);
       },
