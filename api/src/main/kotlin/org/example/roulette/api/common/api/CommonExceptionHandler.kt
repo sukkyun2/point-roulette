@@ -6,10 +6,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.NoHandlerFoundException
+import org.example.roulette.api.common.app.NoDataException
 
 @RestControllerAdvice
 class CommonExceptionHandler {
     private val logger = LoggerFactory.getLogger(CommonExceptionHandler::class.java)
+
+    @ExceptionHandler(NoDataException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun noDataException(ex: NoDataException): ApiResponse<Void?> {
+        logger.warn(ex.message)
+
+        return ApiResponse.nodata()
+    }
 
     @ExceptionHandler(NoHandlerFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
