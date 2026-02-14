@@ -7,11 +7,11 @@ import org.example.roulette.api.common.api.ApiResponse
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
+import tools.jackson.module.kotlin.jacksonObjectMapper
 
 @Component
 class AuthInterceptor(
     private val jwtUtil: JwtUtil,
-    private val objectMapper: ObjectMapper,
 ) : HandlerInterceptor {
     override fun preHandle(
         request: HttpServletRequest,
@@ -51,6 +51,6 @@ class AuthInterceptor(
         response.contentType = MediaType.APPLICATION_JSON_VALUE
 
         val errorResponse = ApiResponse.unauthorized()
-        response.writer.write(objectMapper.writeValueAsString(errorResponse))
+        response.writer.write(jacksonObjectMapper().writeValueAsString(errorResponse))
     }
 }
