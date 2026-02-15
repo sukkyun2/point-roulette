@@ -7,6 +7,7 @@
  */
 
 export * from './apiResponse';
+export * from './apiResponseOrderHistoryListQueryResponse';
 export * from './apiResponsePointHistoryQueryResponse';
 export * from './balanceQueryResponse';
 export * from './getCurrentUser200';
@@ -19,7 +20,10 @@ export * from './login200';
 export * from './login200AllOf';
 export * from './loginRequest';
 export * from './loginResult';
+export * from './orderHistoryItemResponse';
+export * from './orderHistoryListQueryResponse';
 export * from './orderRequest';
+export * from './orderStatus';
 export * from './participate200';
 export * from './participate200AllOf';
 export * from './pointHistoryItemResponse';
