@@ -18,6 +18,13 @@ import org.springframework.stereotype.Component
 class SwaggerConfig {
     @Bean
     fun openAPI(): OpenAPI {
+        val apiResponseSchema = Schema<Any>().apply {
+            type = "object"
+            addProperty("code", Schema<Any>().type("string"))
+            addProperty("message", Schema<Any>().type("string"))
+            addProperty("data", Schema<Any>())
+        }
+
         return OpenAPI()
             .info(
                 Info()
@@ -25,18 +32,15 @@ class SwaggerConfig {
                     .description("룰렛 게임 API 문서")
                     .version("1.0.0")
             )
-            .addSecurityItem(
-                SecurityRequirement().addList("BearerAuth")
-            )
             .components(
                 Components()
+                    .addSchemas("ApiResponse", apiResponseSchema)
                     .addSecuritySchemes(
                         "BearerAuth",
                         SecurityScheme()
                             .type(SecurityScheme.Type.HTTP)
                             .scheme("bearer")
                             .bearerFormat("JWT")
-                            .description("JWT 토큰을 입력하세요")
                     )
             )
     }
@@ -48,6 +52,21 @@ class SwaggerConfig {
                 handlerMethod.getMethodAnnotation(SwaggerApiResponse::class.java)
 
             if (annotation != null) {
+                val dataRef = Schema<Any>()
+                    .`$ref`("#/components/schemas/${annotation.schema.simpleName}")
+
+                val commonRef = Schema<Any>()
+                    .`$ref`("#/components/schemas/ApiResponse")
+
+                val overrideData = Schema<Any>().apply {
+                    type = "object"
+                    addProperty("data", dataRef)
+                }
+
+                val composedSchema = Schema<Any>().apply {
+                    allOf = listOf(commonRef, overrideData)
+                }
+
                 operation.responses.addApiResponse(
                     "200",
                     ApiResponse()
@@ -55,14 +74,14 @@ class SwaggerConfig {
                         .content(
                             Content().addMediaType(
                                 "application/json",
-                                MediaType().schema(
-                                    Schema<Any>()
-                                        .`$ref`("#/components/schemas/${annotation.schema.simpleName}"),
-                                ),
-                            ),
-                        ),
+                                MediaType().schema(composedSchema)
+                            )
+                        )
                 )
             }
+
+            operation.responses.remove("500")
+
             operation
         }
 }
