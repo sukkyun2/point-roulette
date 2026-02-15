@@ -8,3 +8,4 @@
 export * from './apiResponse';
 export * from './apiResponseData';
 export * from './loginRequest';
+export * from './rouletteParticipateResponse';
