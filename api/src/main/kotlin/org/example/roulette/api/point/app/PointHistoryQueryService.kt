@@ -42,7 +42,7 @@ class PointHistoryQueryService(
         pointHistoryRepository.findByUserIdOrderByCreatedAtDesc(userId)
 
     fun calculateAvailableBalance(userId: Long): Long =
-        userQueryService.findById(userId)?.balance ?: throw NoDataException()
+        userQueryService.getUser(userId).balance
 
     fun calculateExpiringSoonBalance(userId: Long): Long {
         val now = LocalDateTime.now()

@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "users")
-data class User(
+class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -31,9 +31,14 @@ data class User(
     }
 
     fun deductBalance(point: Point) {
-        require(this.balance >= point.value) { "잔액이 부족합니다" }
-
+        validateBalanceForDeduction(point)
         this.balance -= point.value
         this.updatedAt = LocalDateTime.now()
+    }
+
+    fun canDeduct(point: Point): Boolean = this.balance >= point.value
+
+    private fun validateBalanceForDeduction(point: Point) {
+        require(canDeduct(point)) { "잔액이 부족합니다" }
     }
 }

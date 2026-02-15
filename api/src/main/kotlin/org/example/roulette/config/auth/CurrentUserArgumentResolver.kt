@@ -33,9 +33,7 @@ class CurrentUserArgumentResolver(
 
         return when (parameter.parameterType) {
             SimpleUser::class.java -> {
-                val user =
-                    userQueryService.findById(userId)
-                        ?: throw IllegalStateException("User not found with ID: $userId")
+                val user = userQueryService.getUser(userId)
                 SimpleUser(userId, nickname, user.balance)
             }
             Long::class.java -> userId

@@ -5,11 +5,11 @@ import org.example.roulette.api.order.domain.Order
 import org.example.roulette.api.order.domain.OrderRepository
 import org.example.roulette.api.order.domain.OrderStatus
 import org.example.roulette.api.point.app.PointBalanceService
+import org.example.roulette.api.point.domain.Point
 import org.example.roulette.api.point.domain.ReferenceType
 import org.example.roulette.api.product.domain.Product
 import org.example.roulette.api.product.domain.ProductRepository
-import org.example.roulette.api.user.domain.User
-import org.example.roulette.api.user.domain.UserRepository
+import org.example.roulette.api.user.domain.UserQueryService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,17 +18,17 @@ import org.springframework.transaction.annotation.Transactional
 class OrderService(
     private val orderRepository: OrderRepository,
     private val productRepository: ProductRepository,
-    private val userRepository: UserRepository,
+    private val userQueryService: UserQueryService,
     private val pointBalanceService: PointBalanceService,
 ) {
     fun createOrder(
         userId: Long,
         productId: Long,
     ): Order {
-        val user = getUser(userId)
+        val user = userQueryService.getUser(userId)
         val product = getProduct(productId)
 
-        if (user.balance < product.price) {
+        if (!user.canDeduct(Point(product.price))) {
             throw InsufficientPointException()
         }
 
@@ -51,8 +51,6 @@ class OrderService(
 
         return savedOrder
     }
-
-    private fun getUser(userId: Long): User = userRepository.findById(userId).orElseThrow { NoDataException() }
 
     private fun getProduct(productId: Long): Product =
         productRepository.findById(productId).orElseThrow {

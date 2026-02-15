@@ -1,17 +1,15 @@
 package org.example.roulette.api.roulette.app
 
 import org.example.roulette.api.common.app.NoDataException
+import org.example.roulette.api.point.app.PointHistoryAppender
 import org.example.roulette.api.point.domain.Point
-import org.example.roulette.api.point.domain.PointHistory
-import org.example.roulette.api.point.domain.PointHistoryRepository
 import org.example.roulette.api.point.domain.PointType
 import org.example.roulette.api.point.domain.ReferenceType
 import org.example.roulette.api.roulette.domain.DailyBudgetRepository
 import org.example.roulette.api.roulette.domain.Roulette
 import org.example.roulette.api.roulette.domain.RouletteHistory
 import org.example.roulette.api.roulette.domain.RouletteHistoryRepository
-import org.example.roulette.api.user.domain.User
-import org.example.roulette.api.user.domain.UserRepository
+import org.example.roulette.api.user.domain.UserQueryService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -19,14 +17,14 @@ import java.time.LocalDate
 @Service
 @Transactional
 class RouletteParticipateService(
-    private val userRepository: UserRepository,
+    private val userQueryService: UserQueryService,
     private val dailyBudgetRepository: DailyBudgetRepository,
     private val rouletteHistoryRepository: RouletteHistoryRepository,
-    private val pointHistoryRepository: PointHistoryRepository,
+    private val pointHistoryAppender: PointHistoryAppender,
 ) {
     fun participate(userId: Long): Point {
         val today = LocalDate.now()
-        val user = getUser(userId)
+        val user = userQueryService.getUser(userId)
 
         // 당일 참여 이력 검증
         if (existsRouletteHistory(userId, today)) {
@@ -53,8 +51,6 @@ class RouletteParticipateService(
 
         return Point(history.earnPoint)
     }
-
-    private fun getUser(userId: Long): User = userRepository.findById(userId).orElseThrow { NoDataException() }
 
     private fun existsRouletteHistory(
         userId: Long,

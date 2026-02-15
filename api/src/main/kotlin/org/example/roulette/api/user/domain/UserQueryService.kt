@@ -1,5 +1,6 @@
 package org.example.roulette.api.user.domain
 
+import org.example.roulette.api.common.app.NoDataException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -9,5 +10,5 @@ class UserQueryService(
 ) {
     fun findByNickname(nickname: String): User? = userRepository.findByNickname(nickname)
 
-    fun findById(id: Long): User? = userRepository.findByIdOrNull(id)
+    fun getUser(id: Long): User = userRepository.findByIdOrNull(id) ?: throw NoDataException()
 }
