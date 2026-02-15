@@ -6,11 +6,6 @@ import java.time.LocalDate
 
 @Repository
 interface RouletteHistoryRepository : JpaRepository<RouletteHistory, Long> {
-    fun findByUserIdAndEventDate(
-        userId: Long,
-        eventDate: LocalDate,
-    ): RouletteHistory?
-
     fun existsByUserIdAndEventDate(
         userId: Long,
         eventDate: LocalDate,

@@ -8,12 +8,11 @@ data class ProductListQueryResponse(
     val price: Long,
 ) {
     companion object {
-        fun from(product: Product): ProductListQueryResponse {
-            return ProductListQueryResponse(
+        fun from(product: Product): ProductListQueryResponse =
+            ProductListQueryResponse(
                 id = product.id,
                 name = product.name,
                 price = product.price,
             )
-        }
     }
 }

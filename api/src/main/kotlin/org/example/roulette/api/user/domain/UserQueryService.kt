@@ -8,6 +8,6 @@ class UserQueryService(
     private val userRepository: UserRepository,
 ) {
     fun findByNickname(nickname: String): User? = userRepository.findByNickname(nickname)
-    
+
     fun findById(id: Long): User? = userRepository.findByIdOrNull(id)
 }

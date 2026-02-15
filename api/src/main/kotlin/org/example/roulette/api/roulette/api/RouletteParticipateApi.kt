@@ -6,6 +6,7 @@ import org.example.roulette.api.common.api.ApiResponse
 import org.example.roulette.api.common.api.SwaggerApiResponse
 import org.example.roulette.api.point.domain.Point
 import org.example.roulette.api.roulette.app.RouletteParticipateFailureException
+import org.example.roulette.api.roulette.app.RouletteParticipateResponse
 import org.example.roulette.api.roulette.app.RouletteParticipateService
 import org.example.roulette.config.auth.CurrentUser
 import org.example.roulette.config.auth.SimpleUser

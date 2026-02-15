@@ -18,21 +18,21 @@ import org.springframework.stereotype.Component
 class SwaggerConfig {
     @Bean
     fun openAPI(): OpenAPI {
-        val apiResponseSchema = Schema<Any>().apply {
-            type = "object"
-            addProperty("code", Schema<Any>().type("string"))
-            addProperty("message", Schema<Any>().type("string"))
-            addProperty("data", Schema<Any>())
-        }
+        val apiResponseSchema =
+            Schema<Any>().apply {
+                type = "object"
+                addProperty("code", Schema<Any>().type("string"))
+                addProperty("message", Schema<Any>().type("string"))
+                addProperty("data", Schema<Any>())
+            }
 
         return OpenAPI()
             .info(
                 Info()
                     .title("Roulette API")
                     .description("룰렛 게임 API 문서")
-                    .version("1.0.0")
-            )
-            .components(
+                    .version("1.0.0"),
+            ).components(
                 Components()
                     .addSchemas("ApiResponse", apiResponseSchema)
                     .addSecuritySchemes(
@@ -40,8 +40,8 @@ class SwaggerConfig {
                         SecurityScheme()
                             .type(SecurityScheme.Type.HTTP)
                             .scheme("bearer")
-                            .bearerFormat("JWT")
-                    )
+                            .bearerFormat("JWT"),
+                    ),
             )
     }
 
@@ -52,20 +52,24 @@ class SwaggerConfig {
                 handlerMethod.getMethodAnnotation(SwaggerApiResponse::class.java)
 
             if (annotation != null) {
-                val dataRef = Schema<Any>()
-                    .`$ref`("#/components/schemas/${annotation.schema.simpleName}")
+                val dataRef =
+                    Schema<Any>()
+                        .`$ref`("#/components/schemas/${annotation.schema.simpleName}")
 
-                val commonRef = Schema<Any>()
-                    .`$ref`("#/components/schemas/ApiResponse")
+                val commonRef =
+                    Schema<Any>()
+                        .`$ref`("#/components/schemas/ApiResponse")
 
-                val overrideData = Schema<Any>().apply {
-                    type = "object"
-                    addProperty("data", dataRef)
-                }
+                val overrideData =
+                    Schema<Any>().apply {
+                        type = "object"
+                        addProperty("data", dataRef)
+                    }
 
-                val composedSchema = Schema<Any>().apply {
-                    allOf = listOf(commonRef, overrideData)
-                }
+                val composedSchema =
+                    Schema<Any>().apply {
+                        allOf = listOf(commonRef, overrideData)
+                    }
 
                 operation.responses.addApiResponse(
                     "200",
@@ -74,9 +78,9 @@ class SwaggerConfig {
                         .content(
                             Content().addMediaType(
                                 "application/json",
-                                MediaType().schema(composedSchema)
-                            )
-                        )
+                                MediaType().schema(composedSchema),
+                            ),
+                        ),
                 )
             }
 
