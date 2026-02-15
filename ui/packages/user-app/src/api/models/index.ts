@@ -18,6 +18,7 @@ export * from './login200';
 export * from './login200AllOf';
 export * from './loginRequest';
 export * from './loginResult';
+export * from './orderRequest';
 export * from './participate200';
 export * from './participate200AllOf';
 export * from './productListQueryResponse';
