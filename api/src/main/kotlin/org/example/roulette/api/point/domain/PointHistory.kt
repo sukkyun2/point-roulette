@@ -29,7 +29,7 @@ data class PointHistory(
     val referenceType: ReferenceType,
     @Column(name = "reference_id")
     val referenceId: Long?,
-    @Column(name = "expires_at")
+    @Column(name = "expired_at")
     val expiresAt: LocalDateTime?,
     @Column(name = "created_at")
     val createdAt: LocalDateTime = LocalDateTime.now(),
