@@ -71,7 +71,6 @@ class RouletteParticipateService(
                 type = PointType.EARN,
                 referenceType = ReferenceType.ROULETTE,
                 referenceId = saved.id,
-                expiresAt = LocalDate.now().plusDays(30).atStartOfDay(),
             )
         pointHistoryRepository.save(pointHistory)
     }

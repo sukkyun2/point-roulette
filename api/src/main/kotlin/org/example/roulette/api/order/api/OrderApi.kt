@@ -11,22 +11,21 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class OrderApi(
-    private val orderService: OrderService
+    private val orderService: OrderService,
 ) {
     @PostMapping("/api/orders")
     fun createOrder(
         @CurrentUser user: SimpleUser,
-        @RequestBody request: OrderRequest
-    ): ApiResponse<Nothing> {
-        return try {
+        @RequestBody request: OrderRequest,
+    ): ApiResponse<Nothing> =
+        try {
             orderService.createOrder(user.id, request.productId)
             ApiResponse.ok()
         } catch (ex: InsufficientPointException) {
             ApiResponse.badRequest(ex.message)
         }
-    }
 }
 
 data class OrderRequest(
-    val productId: Long
+    val productId: Long,
 )

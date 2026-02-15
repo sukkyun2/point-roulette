@@ -43,5 +43,5 @@ data class Order(
 
 enum class OrderStatus {
     COMPLETED,
-    CANCELLED
+    CANCELLED,
 }

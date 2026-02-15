@@ -4,7 +4,7 @@ import org.example.roulette.api.common.app.NoDataException
 import org.example.roulette.api.order.domain.Order
 import org.example.roulette.api.order.domain.OrderRepository
 import org.example.roulette.api.order.domain.OrderStatus
-import org.example.roulette.api.point.app.PointService
+import org.example.roulette.api.point.app.PointBalanceService
 import org.example.roulette.api.point.domain.ReferenceType
 import org.example.roulette.api.product.domain.Product
 import org.example.roulette.api.product.domain.ProductRepository
@@ -19,9 +19,12 @@ class OrderService(
     private val orderRepository: OrderRepository,
     private val productRepository: ProductRepository,
     private val userRepository: UserRepository,
-    private val pointService: PointService
+    private val pointBalanceService: PointBalanceService,
 ) {
-    fun createOrder(userId: Long, productId: Long): Order {
+    fun createOrder(
+        userId: Long,
+        productId: Long,
+    ): Order {
         val user = getUser(userId)
         val product = getProduct(productId)
 
@@ -29,30 +32,30 @@ class OrderService(
             throw InsufficientPointException()
         }
 
-        val order = Order(
-            userId = userId,
-            productId = product.id,
-            priceAtOrder = product.price,
-            status = OrderStatus.COMPLETED
-        )
-        
+        val order =
+            Order(
+                userId = userId,
+                productId = product.id,
+                priceAtOrder = product.price,
+                status = OrderStatus.COMPLETED,
+            )
+
         val savedOrder = orderRepository.save(order)
 
-        pointService.deductPoints(
+        pointBalanceService.deductPoints(
             userId = userId,
             amount = product.price,
             referenceType = ReferenceType.ORDER,
-            referenceId = savedOrder.id
+            referenceId = savedOrder.id,
         )
-        
+
         return savedOrder
     }
-    
-    private fun getUser(userId: Long): User {
-        return userRepository.findById(userId).orElseThrow { NoDataException() }
-    }
-    
-    private fun getProduct(productId: Long): Product {
-        return productRepository.findById(productId).orElseThrow { NoDataException() }
-    }
+
+    private fun getUser(userId: Long): User = userRepository.findById(userId).orElseThrow { NoDataException() }
+
+    private fun getProduct(productId: Long): Product =
+        productRepository.findById(productId).orElseThrow {
+            NoDataException()
+        }
 }
