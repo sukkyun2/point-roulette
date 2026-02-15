@@ -3,7 +3,7 @@ import { LoginForm } from './components/LoginForm';
 import { RoulettePage } from './components/RoulettePage';
 
 const AppContent = () => {
-  const { isAuthenticated, isLoading, user } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
     return (
