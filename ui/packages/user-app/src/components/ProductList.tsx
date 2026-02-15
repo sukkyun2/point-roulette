@@ -62,7 +62,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
 };
 
 export const ProductList: React.FC = () => {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
   const { data, isLoading, error } = useGetProducts();
   const createOrderMutation = useCreateOrder();
 
@@ -70,6 +70,7 @@ export const ProductList: React.FC = () => {
     try {
       await createOrderMutation.mutateAsync({ data: { productId } });
       alert('주문이 완료되었습니다!');
+      refreshUser(); // 구매 후 사용자 잔액 갱신
     } catch (error) {
       console.error('주문 실패:', error);
       alert('주문에 실패했습니다. 다시 시도해주세요.');
