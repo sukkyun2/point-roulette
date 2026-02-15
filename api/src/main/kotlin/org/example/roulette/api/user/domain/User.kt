@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import org.example.roulette.api.order.app.InsufficientPointException
 import org.example.roulette.api.point.domain.Point
 import java.time.LocalDateTime
 
@@ -31,14 +32,10 @@ class User(
     }
 
     fun deductBalance(point: Point) {
-        validateBalanceForDeduction(point)
+        require(canDeduct(point)) { InsufficientPointException() }
         this.balance -= point.value
         this.updatedAt = LocalDateTime.now()
     }
 
     fun canDeduct(point: Point): Boolean = this.balance >= point.value
-
-    private fun validateBalanceForDeduction(point: Point) {
-        require(canDeduct(point)) { "잔액이 부족합니다" }
-    }
 }

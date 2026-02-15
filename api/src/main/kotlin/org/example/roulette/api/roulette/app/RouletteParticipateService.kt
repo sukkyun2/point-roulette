@@ -34,7 +34,7 @@ class RouletteParticipateService(
         // 당일 예산 조회
         val dailyBudget =
             dailyBudgetRepository.findByBudgetDate(today)
-                ?: throw NoDataException()
+                ?: throw EventPeriodException()
 
         val roulette = Roulette(dailyBudget, user)
 
