@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import RouletteWheel from './RouletteWheel';
+import { useAuth } from '../contexts/AuthContext';
 
 export const RoulettePage = () => {
   const [result, setResult] = useState<number | null>(null);
+  const { refreshUser } = useAuth();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 flex items-center justify-center p-4">
@@ -12,6 +14,8 @@ export const RoulettePage = () => {
         <RouletteWheel 
           onResult={(points) => {
             setResult(points);
+            // Refresh user balance after roulette game
+            refreshUser();
           }}
         />
 

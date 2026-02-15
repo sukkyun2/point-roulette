@@ -6,10 +6,19 @@ import './index.css';
 
 const queryClient = new QueryClient();
 
+const AppWithProviders = () => (
+  <QueryClientProvider client={queryClient}>
+    <App />
+  </QueryClientProvider>
+);
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
-  </React.StrictMode>
+  import.meta.env.DEV ? (
+    // Disable StrictMode in development to prevent double API calls
+    <AppWithProviders />
+  ) : (
+    <React.StrictMode>
+      <AppWithProviders />
+    </React.StrictMode>
+  )
 );
