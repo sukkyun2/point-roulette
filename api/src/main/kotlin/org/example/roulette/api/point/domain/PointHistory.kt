@@ -29,11 +29,18 @@ data class PointHistory(
     val referenceType: ReferenceType,
     @Column(name = "reference_id")
     val referenceId: Long?,
-    @Column(name = "expired_at")
-    val expiresAt: LocalDateTime?,
     @Column(name = "created_at")
     val createdAt: LocalDateTime = LocalDateTime.now(),
-)
+) {
+    fun getExpiresAt(): LocalDateTime? =
+        if (type == PointType.EARN) {
+            createdAt.plusDays(30)
+        } else {
+            null
+        }
+
+    fun isExpired(): Boolean = getExpiresAt()?.isBefore(LocalDateTime.now()) ?: false
+}
 
 enum class PointType {
     EARN,

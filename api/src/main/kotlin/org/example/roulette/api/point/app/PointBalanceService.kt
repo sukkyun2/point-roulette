@@ -11,31 +11,33 @@ import org.example.roulette.api.user.domain.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class PointService(
+class PointBalanceService(
     private val pointHistoryRepository: PointHistoryRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) {
-    
-    fun deductPoints(userId: Long, amount: Long, referenceType: ReferenceType, referenceId: Long) {
+    fun deductPoints(
+        userId: Long,
+        amount: Long,
+        referenceType: ReferenceType,
+        referenceId: Long,
+    ) {
         val user = getUser(userId)
-        
+
         // User balance 차감
         user.deductBalance(Point(amount))
         userRepository.save(user)
-        
+
         // PointHistory 기록
-        val pointHistory = PointHistory(
-            userId = userId,
-            amount = amount,
-            type = PointType.USE,
-            referenceType = referenceType,
-            referenceId = referenceId,
-            expiresAt = null
-        )
+        val pointHistory =
+            PointHistory(
+                userId = userId,
+                amount = amount,
+                type = PointType.USE,
+                referenceType = referenceType,
+                referenceId = referenceId,
+            )
         pointHistoryRepository.save(pointHistory)
     }
-    
-    private fun getUser(userId: Long): User {
-        return userRepository.findById(userId).orElseThrow { NoDataException() }
-    }
+
+    private fun getUser(userId: Long): User = userRepository.findById(userId).orElseThrow { NoDataException() }
 }
