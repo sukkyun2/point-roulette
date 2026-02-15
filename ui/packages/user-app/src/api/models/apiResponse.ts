@@ -5,16 +5,9 @@
  * 룰렛 게임 API 문서
  * OpenAPI spec version: 1.0.0
  */
-import type { ApiResponseData } from './apiResponseData';
 
-/**
- * API 응답 공통 포맷
- */
 export interface ApiResponse {
-  /** 응답 코드 */
   code?: string;
-  /** 응답 메시지 */
   message?: string;
-  /** 응답 데이터 */
-  data?: ApiResponseData;
+  data?: unknown;
 }

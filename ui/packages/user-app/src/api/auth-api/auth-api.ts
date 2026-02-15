@@ -21,7 +21,7 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query';
 
-import type { ApiResponse, LoginRequest } from '.././models';
+import type { GetCurrentUser200, Login200, LoginRequest } from '.././models';
 
 import { axiosInstance } from '.././axiosInstance';
 
@@ -32,7 +32,7 @@ export const login = (
   options?: SecondParameter<typeof axiosInstance>,
   signal?: AbortSignal
 ) => {
-  return axiosInstance<ApiResponse>(
+  return axiosInstance<Login200>(
     {
       url: `/api/auth/login`,
       method: 'POST',
@@ -45,7 +45,7 @@ export const login = (
 };
 
 export const getLoginMutationOptions = <
-  TError = ApiResponse,
+  TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -86,9 +86,9 @@ export type LoginMutationResult = NonNullable<
   Awaited<ReturnType<typeof login>>
 >;
 export type LoginMutationBody = LoginRequest;
-export type LoginMutationError = ApiResponse;
+export type LoginMutationError = unknown;
 
-export const useLogin = <TError = ApiResponse, TContext = unknown>(
+export const useLogin = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof login>>,
@@ -113,7 +113,7 @@ export const getCurrentUser = (
   options?: SecondParameter<typeof axiosInstance>,
   signal?: AbortSignal
 ) => {
-  return axiosInstance<ApiResponse>(
+  return axiosInstance<GetCurrentUser200>(
     { url: `/api/auth/me`, method: 'GET', signal },
     options
   );
@@ -125,7 +125,7 @@ export const getGetCurrentUserQueryKey = () => {
 
 export const getGetCurrentUserQueryOptions = <
   TData = Awaited<ReturnType<typeof getCurrentUser>>,
-  TError = ApiResponse,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getCurrentUser>>, TError, TData>
@@ -156,11 +156,11 @@ export const getGetCurrentUserQueryOptions = <
 export type GetCurrentUserQueryResult = NonNullable<
   Awaited<ReturnType<typeof getCurrentUser>>
 >;
-export type GetCurrentUserQueryError = ApiResponse;
+export type GetCurrentUserQueryError = unknown;
 
 export function useGetCurrentUser<
   TData = Awaited<ReturnType<typeof getCurrentUser>>,
-  TError = ApiResponse,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -182,7 +182,7 @@ export function useGetCurrentUser<
 };
 export function useGetCurrentUser<
   TData = Awaited<ReturnType<typeof getCurrentUser>>,
-  TError = ApiResponse,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -204,7 +204,7 @@ export function useGetCurrentUser<
 };
 export function useGetCurrentUser<
   TData = Awaited<ReturnType<typeof getCurrentUser>>,
-  TError = ApiResponse,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -219,7 +219,7 @@ export function useGetCurrentUser<
 
 export function useGetCurrentUser<
   TData = Awaited<ReturnType<typeof getCurrentUser>>,
-  TError = ApiResponse,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<

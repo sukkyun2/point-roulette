@@ -7,9 +7,13 @@
  */
 
 /**
- * 로그인 요청 데이터
+ * 사용자 정보
  */
-export interface LoginRequest {
+export interface SimpleUser {
+  /** 사용자 ID */
+  id: number;
   /** 사용자 닉네임 */
   nickname: string;
+  /** 사용자 보유 잔액 */
+  userBalance: number;
 }

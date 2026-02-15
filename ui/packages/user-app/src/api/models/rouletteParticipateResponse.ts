@@ -11,5 +11,5 @@
  */
 export interface RouletteParticipateResponse {
   /** 획득한 포인트 */
-  value?: number;
+  value: number;
 }

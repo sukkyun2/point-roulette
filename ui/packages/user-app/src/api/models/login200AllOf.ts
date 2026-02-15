@@ -5,9 +5,8 @@
  * 룰렛 게임 API 문서
  * OpenAPI spec version: 1.0.0
  */
+import type { LoginResult } from './loginResult';
 
-export interface ProductListQueryResponse {
-  id: number;
-  name: string;
-  price: number;
-}
+export type Login200AllOf = {
+  data?: LoginResult;
+};
