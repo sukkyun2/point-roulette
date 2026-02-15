@@ -85,7 +85,7 @@ export default function RouletteWheel({ onResult }: RouletteWheelProps) {
         className={`px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 ${
           mustSpin || isLoading
             ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
-            : 'bg-gradient-to-r from-red-500 to-pink-500 text-white hover:from-red-600 hover:to-pink-600 active:scale-95 shadow-lg'
+            : 'bg-gradient-to-r from-red-500 to-pink-500 text-white hover:from-red-600 hover:to-pink-600 active:scale-95'
         }`}
       >
         {isLoading ? '참여 중...' : mustSpin ? '돌리는 중...' : '룰렛 돌리기'}
