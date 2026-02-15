@@ -46,7 +46,6 @@ class RouletteParticipateService(
         val history = roulette.participate()
 
         dailyBudgetRepository.save(roulette.getDailyBudget())
-        userRepository.save(roulette.getUser())
         appendHistory(history)
 
         return Point(history.earnPoint)
@@ -60,14 +59,12 @@ class RouletteParticipateService(
     private fun appendHistory(rouletteHistory: RouletteHistory) {
         val saved = rouletteHistoryRepository.save(rouletteHistory)
 
-        val pointHistory =
-            PointHistory(
-                userId = saved.userId,
-                amount = saved.earnPoint,
-                type = PointType.EARN,
-                referenceType = ReferenceType.ROULETTE,
-                referenceId = saved.id,
-            )
-        pointHistoryRepository.save(pointHistory)
+        pointHistoryAppender.appendPointHistory(
+            userId = saved.userId,
+            amount = saved.earnPoint,
+            type = PointType.EARN,
+            referenceType = ReferenceType.ROULETTE,
+            referenceId = saved.id,
+        )
     }
 }
