@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'config/env_config.dart';
 
 void main() async {
@@ -33,21 +33,48 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-  late final WebViewController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse(EnvConfig.webUrl));
-  }
+  InAppWebViewController? webViewController;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: WebViewWidget(controller: controller),
+        child: InAppWebView(
+          initialUrlRequest: URLRequest(url: WebUri(EnvConfig.webUrl)),
+          initialSettings: InAppWebViewSettings(
+            javaScriptEnabled: true,
+            domStorageEnabled: true,
+          ),
+          onWebViewCreated: (InAppWebViewController controller) {
+            webViewController = controller;
+            
+            // showAlert 핸들러 등록
+            controller.addJavaScriptHandler(
+              handlerName: 'showAlert',
+              callback: (args) {
+                final data = args.isNotEmpty ? args[0] : {};
+                final message = data['message'] ?? '알림';
+                final title = data['title'] ?? '알림';
+                
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(title),
+                      content: Text(message),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text('확인'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

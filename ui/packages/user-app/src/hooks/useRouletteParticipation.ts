@@ -1,5 +1,6 @@
 import { useParticipate } from '../api/roulette-participate-api/roulette-participate-api';
 import { RouletteParticipateResponse } from '../api/models';
+import { useAppAlert } from './useAppAlert';
 
 interface RouletteParticipationResult {
   participate: () => Promise<number | null>;
@@ -8,6 +9,7 @@ interface RouletteParticipationResult {
 
 export const useRouletteParticipation = (): RouletteParticipationResult => {
   const participateMutation = useParticipate();
+  const { showAlert } = useAppAlert();
 
   const participate = async (): Promise<number | null> => {
     try {
@@ -25,13 +27,13 @@ export const useRouletteParticipation = (): RouletteParticipationResult => {
       
       // 첫 번째 구조: response 자체에 code가 있는 경우
       if (responseData?.code === "400" || responseData?.code === 400) {
-        alert(responseData.message || '참여할 수 없습니다.');
+        showAlert(responseData.message || '참여할 수 없습니다.');
         return null;
       }
       
       // 두 번째 구조: response.data에 code가 있는 경우
       if (nestedData?.code === "400" || nestedData?.code === 400) {
-        alert(nestedData.message || '참여할 수 없습니다.');
+        showAlert(nestedData.message || '참여할 수 없습니다.');
         return null;
       }
       
@@ -44,12 +46,12 @@ export const useRouletteParticipation = (): RouletteParticipationResult => {
       
       // 예상치 못한 응답 구조
       console.error('Unexpected response structure:', response);
-      alert('알 수 없는 오류가 발생했습니다.');
+      showAlert('알 수 없는 오류가 발생했습니다.');
       return null;
       
     } catch (error) {
       console.error('룰렛 참여 중 오류:', error);
-      alert('네트워크 오류가 발생했습니다.');
+      showAlert('네트워크 오류가 발생했습니다.');
       return null;
     }
   };
