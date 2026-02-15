@@ -11,10 +11,9 @@ import org.springframework.stereotype.Component
 
 @Component
 class SwaggerConfig {
-
     @Bean
-    fun swaggerCustomizer(): OperationCustomizer {
-        return OperationCustomizer { operation, handlerMethod ->
+    fun swaggerCustomizer(): OperationCustomizer =
+        OperationCustomizer { operation, handlerMethod ->
             val annotation =
                 handlerMethod.getMethodAnnotation(SwaggerApiResponse::class.java)
 
@@ -28,14 +27,12 @@ class SwaggerConfig {
                                 "application/json",
                                 MediaType().schema(
                                     Schema<Any>()
-                                        .`$ref`("#/components/schemas/${annotation.schema.simpleName}")
-                                )
-                            )
-                        )
+                                        .`$ref`("#/components/schemas/${annotation.schema.simpleName}"),
+                                ),
+                            ),
+                        ),
                 )
             }
             operation
         }
-    }
-
 }

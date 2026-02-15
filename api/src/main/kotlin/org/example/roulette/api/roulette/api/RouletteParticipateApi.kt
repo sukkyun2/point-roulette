@@ -1,0 +1,30 @@
+package org.example.roulette.api.roulette.api
+
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import org.example.roulette.api.common.api.ApiResponse
+import org.example.roulette.api.common.api.SwaggerApiResponse
+import org.example.roulette.api.point.domain.Point
+import org.example.roulette.api.roulette.app.RouletteParticipateFailureException
+import org.example.roulette.api.roulette.app.RouletteParticipateService
+import org.example.roulette.config.auth.CurrentUser
+import org.example.roulette.config.auth.SimpleUser
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RestController
+
+@RestController
+class RouletteParticipateApi(
+    private val rouletteParticipateService: RouletteParticipateService,
+) {
+    @PostMapping("/api/roulette/participate")
+    @SwaggerApiResponse(schema = RouletteParticipateResponse::class)
+    fun participate(
+        @CurrentUser user: SimpleUser,
+    ): ApiResponse<RouletteParticipateResponse> =
+        try {
+            val point = rouletteParticipateService.participate(user.id)
+            ApiResponse.ok(RouletteParticipateResponse(point.value))
+        } catch (ex: RouletteParticipateFailureException) {
+            ApiResponse.badRequest(ex.message)
+        }
+}

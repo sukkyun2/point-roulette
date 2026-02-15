@@ -6,5 +6,5 @@ import kotlin.reflect.KClass
 @Retention(AnnotationRetention.RUNTIME)
 annotation class SwaggerApiResponse(
     val description: String = "성공",
-    val schema: KClass<*>
+    val schema: KClass<*>,
 )
