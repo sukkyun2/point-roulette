@@ -18,7 +18,7 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query';
 
-import type { ApiResponse, ProductListQueryResponse } from '.././models';
+import type { GetProducts200 } from '.././models';
 
 import { axiosInstance } from '.././axiosInstance';
 
@@ -28,7 +28,7 @@ export const getProducts = (
   options?: SecondParameter<typeof axiosInstance>,
   signal?: AbortSignal
 ) => {
-  return axiosInstance<ProductListQueryResponse>(
+  return axiosInstance<GetProducts200>(
     { url: `/api/products`, method: 'GET', signal },
     options
   );
@@ -40,7 +40,7 @@ export const getGetProductsQueryKey = () => {
 
 export const getGetProductsQueryOptions = <
   TData = Awaited<ReturnType<typeof getProducts>>,
-  TError = ApiResponse,
+  TError = unknown,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getProducts>>, TError, TData>
@@ -71,11 +71,11 @@ export const getGetProductsQueryOptions = <
 export type GetProductsQueryResult = NonNullable<
   Awaited<ReturnType<typeof getProducts>>
 >;
-export type GetProductsQueryError = ApiResponse;
+export type GetProductsQueryError = unknown;
 
 export function useGetProducts<
   TData = Awaited<ReturnType<typeof getProducts>>,
-  TError = ApiResponse,
+  TError = unknown,
 >(
   options: {
     query: Partial<
@@ -97,7 +97,7 @@ export function useGetProducts<
 };
 export function useGetProducts<
   TData = Awaited<ReturnType<typeof getProducts>>,
-  TError = ApiResponse,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -119,7 +119,7 @@ export function useGetProducts<
 };
 export function useGetProducts<
   TData = Awaited<ReturnType<typeof getProducts>>,
-  TError = ApiResponse,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<
@@ -134,7 +134,7 @@ export function useGetProducts<
 
 export function useGetProducts<
   TData = Awaited<ReturnType<typeof getProducts>>,
-  TError = ApiResponse,
+  TError = unknown,
 >(
   options?: {
     query?: Partial<

@@ -7,9 +7,15 @@
  */
 
 /**
- * 로그인 요청 데이터
+ * 로그인 응답 데이터
  */
-export interface LoginRequest {
+export interface LoginResult {
+  /** JWT 토큰 */
+  token: string;
+  /** 사용자 ID */
+  userId: number;
   /** 사용자 닉네임 */
   nickname: string;
+  /** 사용자 보유 잔액 */
+  userBalance: number;
 }

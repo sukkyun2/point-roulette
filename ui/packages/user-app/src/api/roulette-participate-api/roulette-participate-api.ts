@@ -13,7 +13,7 @@ import type {
   UseMutationResult,
 } from '@tanstack/react-query';
 
-import type { ApiResponse, RouletteParticipateResponse } from '.././models';
+import type { Participate200 } from '.././models';
 
 import { axiosInstance } from '.././axiosInstance';
 
@@ -23,14 +23,14 @@ export const participate = (
   options?: SecondParameter<typeof axiosInstance>,
   signal?: AbortSignal
 ) => {
-  return axiosInstance<RouletteParticipateResponse>(
+  return axiosInstance<Participate200>(
     { url: `/api/roulette/participate`, method: 'POST', signal },
     options
   );
 };
 
 export const getParticipateMutationOptions = <
-  TError = ApiResponse,
+  TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -69,9 +69,9 @@ export type ParticipateMutationResult = NonNullable<
   Awaited<ReturnType<typeof participate>>
 >;
 
-export type ParticipateMutationError = ApiResponse;
+export type ParticipateMutationError = unknown;
 
-export const useParticipate = <TError = ApiResponse, TContext = unknown>(
+export const useParticipate = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof participate>>,
