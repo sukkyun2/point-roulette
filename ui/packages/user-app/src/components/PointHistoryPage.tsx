@@ -84,7 +84,7 @@ const PointHistoryPage = () => {
       {balance && (
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-lg font-semibold mb-4">잔액 정보</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="text-center p-4 bg-blue-50 rounded-lg">
               <div className="text-sm text-gray-600 mb-1">사용 가능 포인트</div>
               <div className="text-2xl font-bold text-blue-600">
@@ -121,7 +121,8 @@ const PointHistoryPage = () => {
                         {getTypeLabel(item.type)}
                       </span>
                       <span className={`text-lg font-bold ${getTypeColor(item.type)}`}>
-                        {item.amount > 0 ? '+' : ''}{item.amount.toLocaleString()}P
+                        {item.type === 'USE' ? '-' : '+'}
+                        {Math.abs(item.amount).toLocaleString()}P
                       </span>
                     </div>
                     

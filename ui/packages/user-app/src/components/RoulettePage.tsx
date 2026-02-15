@@ -88,7 +88,9 @@ export const RoulettePage = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-600">남은 예산</span>
                   <span className="text-lg font-bold text-blue-600">
-                    {rouletteStatus?.remainingBudget?.toLocaleString()}원
+                    {rouletteStatus?.remainingBudget
+                      ? rouletteStatus.remainingBudget.toLocaleString()
+                      : 0}원
                   </span>
                 </div>
               </div>

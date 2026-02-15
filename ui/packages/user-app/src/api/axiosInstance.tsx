@@ -39,6 +39,7 @@ axiosClient.interceptors.response.use(
     if (error.response?.status === 401) {
       // Handle unauthorized access
       localStorage.removeItem('token');
+      alert('다시 로그인해주세요.');
       window.location.reload();
     } else if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK') {
       // Only show alert for actual network connection errors

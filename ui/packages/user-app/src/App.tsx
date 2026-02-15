@@ -12,48 +12,52 @@ const Navigation = ({ currentPage, onPageChange }: {
   currentPage: Page;
   onPageChange: (page: Page) => void;
 }) => (
-  <nav className="bg-white shadow-sm border-b border-gray-200">
-    <div className="max-w-4xl mx-auto px-4">
-      <div className="flex space-x-8">
+  <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-50">
+    <div className="max-w-4xl mx-auto">
+      <div className="grid grid-cols-4">
         <button
           onClick={() => onPageChange('roulette')}
-          className={`py-4 px-2 border-b-2 transition-colors ${
+          className={`py-3 px-2 flex flex-col items-center transition-colors ${
             currentPage === 'roulette'
-              ? 'border-blue-500 text-blue-600 font-medium'
-              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              ? 'text-blue-600'
+              : 'text-gray-500 hover:text-gray-700'
           }`}
         >
-          룰렛 게임
+          <div className="text-xl mb-1">🎰</div>
+          <div className="text-xs font-medium">룰렛</div>
         </button>
         <button
           onClick={() => onPageChange('products')}
-          className={`py-4 px-2 border-b-2 transition-colors ${
+          className={`py-3 px-2 flex flex-col items-center transition-colors ${
             currentPage === 'products'
-              ? 'border-blue-500 text-blue-600 font-medium'
-              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              ? 'text-blue-600'
+              : 'text-gray-500 hover:text-gray-700'
           }`}
         >
-          상품 목록
+          <div className="text-xl mb-1">🛍️</div>
+          <div className="text-xs font-medium">상품</div>
         </button>
         <button
           onClick={() => onPageChange('point-history')}
-          className={`py-4 px-2 border-b-2 transition-colors ${
+          className={`py-3 px-2 flex flex-col items-center transition-colors ${
             currentPage === 'point-history'
-              ? 'border-blue-500 text-blue-600 font-medium'
-              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              ? 'text-blue-600'
+              : 'text-gray-500 hover:text-gray-700'
           }`}
         >
-          포인트 내역
+          <div className="text-xl mb-1">💰</div>
+          <div className="text-xs font-medium">포인트</div>
         </button>
         <button
           onClick={() => onPageChange('order-history')}
-          className={`py-4 px-2 border-b-2 transition-colors ${
+          className={`py-3 px-2 flex flex-col items-center transition-colors ${
             currentPage === 'order-history'
-              ? 'border-blue-500 text-blue-600 font-medium'
-              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              ? 'text-blue-600'
+              : 'text-gray-500 hover:text-gray-700'
           }`}
         >
-          주문 내역
+          <div className="text-xl mb-1">📦</div>
+          <div className="text-xs font-medium">주문</div>
         </button>
       </div>
     </div>
@@ -85,12 +89,12 @@ const AppContent = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation currentPage={currentPage} onPageChange={handlePageChange} />
+    <div className="min-h-screen bg-gray-50 pb-20">
       {currentPage === 'roulette' && <RoulettePage />}
       {currentPage === 'products' && <ProductListPage />}
       {currentPage === 'point-history' && <PointHistoryPage />}
       {currentPage === 'order-history' && <OrderHistoryPage />}
+      <Navigation currentPage={currentPage} onPageChange={handlePageChange} />
     </div>
   );
 };
