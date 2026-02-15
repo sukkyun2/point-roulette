@@ -2,9 +2,10 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { LoginForm } from './components/LoginForm';
 import { RoulettePage } from './components/RoulettePage';
 import { ProductListPage } from './pages/ProductListPage';
+import PointHistoryPage from './components/PointHistoryPage';
 import { useState } from 'react';
 
-type Page = 'roulette' | 'products';
+type Page = 'roulette' | 'products' | 'point-history';
 
 const Navigation = ({ currentPage, onPageChange }: {
   currentPage: Page;
@@ -32,6 +33,16 @@ const Navigation = ({ currentPage, onPageChange }: {
           }`}
         >
           상품 목록
+        </button>
+        <button
+          onClick={() => onPageChange('point-history')}
+          className={`py-4 px-2 border-b-2 transition-colors ${
+            currentPage === 'point-history'
+              ? 'border-blue-500 text-blue-600 font-medium'
+              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+          }`}
+        >
+          포인트 내역
         </button>
       </div>
     </div>
@@ -67,6 +78,7 @@ const AppContent = () => {
       <Navigation currentPage={currentPage} onPageChange={handlePageChange} />
       {currentPage === 'roulette' && <RoulettePage />}
       {currentPage === 'products' && <ProductListPage />}
+      {currentPage === 'point-history' && <PointHistoryPage />}
     </div>
   );
 };

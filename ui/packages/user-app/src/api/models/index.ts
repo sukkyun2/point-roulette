@@ -7,7 +7,8 @@
  */
 
 export * from './apiResponse';
-export * from './apiResponseData';
+export * from './apiResponsePointHistoryQueryResponse';
+export * from './balanceQueryResponse';
 export * from './getCurrentUser200';
 export * from './getCurrentUser200AllOf';
 export * from './getProducts200';
@@ -21,6 +22,9 @@ export * from './loginResult';
 export * from './orderRequest';
 export * from './participate200';
 export * from './participate200AllOf';
+export * from './pointHistoryItemResponse';
+export * from './pointHistoryItemResponseType';
+export * from './pointHistoryQueryResponse';
 export * from './productListQueryResponse';
 export * from './rouletteParticipateResponse';
 export * from './rouletteStatusQueryResponse';
