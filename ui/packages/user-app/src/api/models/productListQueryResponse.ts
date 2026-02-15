@@ -6,6 +6,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export interface LoginRequest {
-  nickname?: string;
+/**
+ * 응답 데이터
+ */
+export interface ProductListQueryResponse {
+  id?: number;
+  name?: string;
+  price?: number;
 }

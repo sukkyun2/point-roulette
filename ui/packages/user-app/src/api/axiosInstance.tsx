@@ -31,13 +31,25 @@ axiosClient.interceptors.response.use(
     return response;
   },
   error => {
+    // Don't handle canceled requests as errors
+    if (axios.isCancel(error) || error.name === 'CanceledError') {
+      return Promise.reject(error);
+    }
+    
     if (error.response?.status === 401) {
       // Handle unauthorized access
       localStorage.removeItem('token');
       window.location.reload();
+    } else if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK') {
+      // Only show alert for actual network connection errors
+      console.error('Network connection error:', error);
+      alert('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
+    } else if (error.response) {
+      // Server responded with error status
+      console.error('API Error:', error.response.status, error.response.data);
     } else {
-      // Global error handling for network errors
-      alert('네트워크 오류입니다');
+      // Other errors (network timeout, etc.)
+      console.error('Request Error:', error);
     }
     return Promise.reject(error);
   }
