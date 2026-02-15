@@ -21,7 +21,7 @@ export const useRouletteParticipation = (): RouletteParticipationResult => {
       // 2. {data: {code: 400, message: "...", value: ...}}
       
       const responseData = response as any;
-      const nestedData = response.data as any;
+      const nestedData = (response as any).data as any;
       
       // 첫 번째 구조: response 자체에 code가 있는 경우
       if (responseData?.code === "400" || responseData?.code === 400) {
