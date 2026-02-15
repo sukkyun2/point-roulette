@@ -15,6 +15,7 @@ export const LoginForm: React.FC = () => {
         id: userData.userId,
         nickname: userData.nickname,
         token: userData.token,
+        userBalance: userData.userBalance,
       });
       refreshUser();
     },
