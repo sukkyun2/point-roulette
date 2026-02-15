@@ -1,5 +1,5 @@
 -- 사용자 테이블
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
     nickname VARCHAR(255) UNIQUE NOT NULL,
     balance BIGINT DEFAULT 0,
@@ -15,7 +15,7 @@ COMMENT ON COLUMN users.created_at IS '사용자 생성 일시';
 COMMENT ON COLUMN users.updated_at IS '사용자 정보 수정 일시';
 
 -- 일일 예산 테이블
-CREATE TABLE daily_budget (
+CREATE TABLE IF NOT EXISTS daily_budget (
     id BIGSERIAL PRIMARY KEY,
     budget_date DATE UNIQUE NOT NULL,
     total_budget BIGINT NOT NULL,
@@ -33,11 +33,10 @@ COMMENT ON COLUMN daily_budget.created_at IS '일일 예산 생성 일시';
 COMMENT ON COLUMN daily_budget.updated_at IS '일일 예산 수정 일시';
 
 -- 상품 테이블
-CREATE TABLE product (
+CREATE TABLE IF NOT EXISTS product (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     price BIGINT NOT NULL,
-    stock_quantity INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -46,12 +45,11 @@ COMMENT ON TABLE product IS '상품 정보';
 COMMENT ON COLUMN product.id IS '상품 ID';
 COMMENT ON COLUMN product.name IS '상품명';
 COMMENT ON COLUMN product.price IS '상품 가격';
-COMMENT ON COLUMN product.stock_quantity IS '현재 재고 수량';
 COMMENT ON COLUMN product.created_at IS '상품 등록 일시';
 COMMENT ON COLUMN product.updated_at IS '상품 수정 일시';
 
 -- 주문 테이블
-CREATE TABLE orders (
+CREATE TABLE IF NOT EXISTS orders (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL REFERENCES users(id),
     product_id BIGINT NOT NULL REFERENCES product(id),
@@ -71,7 +69,7 @@ COMMENT ON COLUMN orders.created_at IS '주문 생성 일시';
 COMMENT ON COLUMN orders.canceled_at IS '주문 취소 일시 (취소되지 않은 경우 NULL)';
 
 -- 룰렛 참여 기록 테이블
-CREATE TABLE roulette_history (
+CREATE TABLE IF NOT EXISTS roulette_history (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL REFERENCES users(id),
     event_date DATE NOT NULL,
@@ -89,7 +87,7 @@ COMMENT ON COLUMN roulette_history.status IS '룰렛 상태 (SUCCESS: 지급 완
 COMMENT ON COLUMN roulette_history.created_at IS '룰렛 참여 기록 생성 일시';
 
 -- 포인트 이력 테이블
-CREATE TABLE point_history (
+CREATE TABLE IF NOT EXISTS point_history (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL REFERENCES users(id),
     amount BIGINT NOT NULL,
