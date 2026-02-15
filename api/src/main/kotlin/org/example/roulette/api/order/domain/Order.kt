@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "orders")
-data class Order(
+class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -31,14 +31,16 @@ data class Order(
     @Column(name = "canceled_at")
     var canceledAt: LocalDateTime? = null,
 ) {
-    fun complete() {
-        this.status = OrderStatus.COMPLETED
-    }
-
     fun cancel() {
+        if(isCancelled()){
+            throw IllegalStateException("취소된 주문은 상태 변경이 불가능합니다")
+        }
+
         this.status = OrderStatus.CANCELLED
         this.canceledAt = LocalDateTime.now()
     }
+
+    fun isCancelled(): Boolean = status == OrderStatus.CANCELLED
 }
 
 enum class OrderStatus {
