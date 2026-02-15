@@ -5,6 +5,7 @@ interface User {
   id: number;
   nickname: string;
   token: string;
+  userBalance: number;
 }
 
 interface AuthContextType {
@@ -34,7 +35,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       data?.data &&
       typeof data.data === 'object' &&
       'id' in data.data &&
-      'nickname' in data.data
+      'nickname' in data.data &&
+      'userBalance' in data.data
     ) {
       setUser(data.data as unknown as User);
     } else if (error) {
