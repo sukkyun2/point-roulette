@@ -21,6 +21,7 @@ class WebConfig(
             .addInterceptor(authInterceptor)
             .addPathPatterns("/api/**")
             .excludePathPatterns("/api/auth/login")
+            .excludePathPatterns("/api/admin/**")
     }
 
     override fun addArgumentResolvers(resolvers: MutableList<HandlerMethodArgumentResolver>) {
