@@ -5,8 +5,8 @@ import org.example.roulette.api.point.app.PointHistoryAppender
 import org.example.roulette.api.point.domain.Point
 import org.example.roulette.api.point.domain.PointType
 import org.example.roulette.api.point.domain.ReferenceType
-import org.example.roulette.api.roulette.domain.RouletteBudgetRepository
 import org.example.roulette.api.roulette.domain.Roulette
+import org.example.roulette.api.roulette.domain.RouletteBudgetRepository
 import org.example.roulette.api.roulette.domain.RouletteHistory
 import org.example.roulette.api.roulette.domain.RouletteHistoryRepository
 import org.example.roulette.api.user.domain.UserQueryService

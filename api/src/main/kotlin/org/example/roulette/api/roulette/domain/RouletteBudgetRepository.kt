@@ -7,4 +7,6 @@ import java.time.LocalDate
 @Repository
 interface RouletteBudgetRepository : JpaRepository<RouletteBudget, Long> {
     fun findByBudgetDate(budgetDate: LocalDate): RouletteBudget?
+
+    fun findAllByOrderByBudgetDateDesc(): List<RouletteBudget>
 }
