@@ -22,27 +22,31 @@ class OrderCancelService(
 ) {
     fun cancelOrder(orderId: Long) {
         val order = getOrder(orderId)
-        
+
         // 주문 취소
         order.cancel()
         orderRepository.save(order)
-        
+
         // 포인트 환불
         refundPoints(order.userId, order.priceAtOrder, orderId)
     }
-    
+
     private fun getOrder(orderId: Long): Order =
         orderRepository.findById(orderId).orElseThrow {
             NoDataException()
         }
-    
-    private fun refundPoints(userId: Long, amount: Long, orderId: Long) {
+
+    private fun refundPoints(
+        userId: Long,
+        amount: Long,
+        orderId: Long,
+    ) {
         val user = userQueryService.getUser(userId)
-        
+
         // User balance 증가
         user.addBalance(Point(amount))
         userRepository.save(user)
-        
+
         // PointHistory 기록
         pointHistoryAppender.appendPointHistory(
             userId = userId,

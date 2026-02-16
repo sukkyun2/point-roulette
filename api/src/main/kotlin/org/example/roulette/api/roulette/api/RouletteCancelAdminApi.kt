@@ -1,24 +1,21 @@
-package org.example.roulette.api.order.api
+package org.example.roulette.api.roulette.api
 
 import org.example.roulette.api.common.api.ApiResponse
-import org.example.roulette.api.order.app.OrderCancelService
-import org.example.roulette.config.auth.CurrentUser
-import org.example.roulette.config.auth.SimpleUser
+import org.example.roulette.api.roulette.app.RouletteCancelService
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class OrderCancelAdminApi(
-    private val orderCancelService: OrderCancelService,
+class RouletteCancelAdminApi(
+    private val rouletteCancelService: RouletteCancelService,
 ) {
-    @PostMapping("/api/orders/{orderId}/cancel")
-    fun cancelOrder(
-        @CurrentUser user: SimpleUser,
-        @PathVariable orderId: Long,
+    @PostMapping("/api/admin/roulette/{rouletteHistoryId}/cancel")
+    fun cancelRouletteParticipation(
+        @PathVariable rouletteHistoryId: Long,
     ): ApiResponse<Nothing> =
         try {
-            orderCancelService.cancelOrder(orderId)
+            rouletteCancelService.cancelParticipation(rouletteHistoryId)
             ApiResponse.ok()
         } catch (ex: IllegalStateException) {
             ApiResponse.badRequest(ex.message)

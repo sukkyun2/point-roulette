@@ -17,16 +17,17 @@ class RouletteHistoryListQueryService(
         val userIds = participations.map { it.userId }.distinct()
         val users = userRepository.findAllById(userIds).associateBy { it.id }
 
-        val participationItems = participations.map { participation ->
-            val user = users[participation.userId]
-            RouletteParticipationHistoryItem(
-                id = participation.id,
-                nickName = user?.nickname ?: "Unknown",
-                earnPoint = participation.earnPoint,
-                status = participation.status,
-                createdAt = participation.createdAt,
-            )
-        }
+        val participationItems =
+            participations.map { participation ->
+                val user = users[participation.userId]
+                RouletteParticipationHistoryItem(
+                    id = participation.id,
+                    nickName = user?.nickname ?: "Unknown",
+                    earnPoint = participation.earnPoint,
+                    status = participation.status,
+                    createdAt = participation.createdAt,
+                )
+            }
 
         return RouletteParticipationHistoryListQueryResponse(participationItems)
     }

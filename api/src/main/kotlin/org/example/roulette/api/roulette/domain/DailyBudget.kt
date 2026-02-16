@@ -38,4 +38,9 @@ data class DailyBudget(
     }
 
     fun canParticipate(minRequiredPoints: Long): Boolean = remainingBudget >= minRequiredPoints
+
+    fun addBudget(point: Point) {
+        remainingBudget += point.value
+        updatedAt = LocalDateTime.now()
+    }
 }
