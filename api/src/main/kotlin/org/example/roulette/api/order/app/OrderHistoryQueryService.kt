@@ -1,6 +1,5 @@
 package org.example.roulette.api.order.app
 
-import org.example.roulette.api.order.api.OrderHistoryItemResponse
 import org.example.roulette.api.order.domain.Order
 import org.example.roulette.api.order.domain.OrderRepository
 import org.example.roulette.api.order.domain.OrderStatus

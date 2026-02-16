@@ -5,7 +5,7 @@ import org.example.roulette.api.point.app.PointHistoryAppender
 import org.example.roulette.api.point.domain.Point
 import org.example.roulette.api.point.domain.PointType
 import org.example.roulette.api.point.domain.ReferenceType
-import org.example.roulette.api.roulette.domain.DailyBudgetRepository
+import org.example.roulette.api.roulette.domain.RouletteBudgetRepository
 import org.example.roulette.api.roulette.domain.RouletteHistoryRepository
 import org.example.roulette.api.roulette.domain.RouletteStatus
 import org.example.roulette.api.user.domain.UserQueryService
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class RouletteCancelService(
     private val rouletteHistoryRepository: RouletteHistoryRepository,
-    private val dailyBudgetRepository: DailyBudgetRepository,
+    private val rouletteBudgetRepository: RouletteBudgetRepository,
     private val userQueryService: UserQueryService,
     private val pointHistoryAppender: PointHistoryAppender,
 ) {
@@ -37,11 +37,11 @@ class RouletteCancelService(
         user.deductBalanceAllowNegative(earnedPoint)
 
         // 예산에 포인트 재반영
-        val dailyBudget =
-            dailyBudgetRepository.findByBudgetDate(rouletteHistory.eventDate)
+        val rouletteBudget =
+            rouletteBudgetRepository.findByBudgetDate(rouletteHistory.eventDate)
                 ?: throw NoDataException("해당 일자의 예산 정보를 찾을 수 없습니다.")
 
-        dailyBudget.addBudget(earnedPoint)
+        rouletteBudget.addBudget(earnedPoint)
 
         // 룰렛 참여 상태를 취소로 변경
         val updatedHistory =
@@ -49,7 +49,7 @@ class RouletteCancelService(
                 status = RouletteStatus.CANCELED,
             )
 
-        dailyBudgetRepository.save(dailyBudget)
+        rouletteBudgetRepository.save(rouletteBudget)
         rouletteHistoryRepository.save(updatedHistory)
 
         // 포인트 회수 히스토리 기록

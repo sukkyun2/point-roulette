@@ -5,19 +5,19 @@ import org.example.roulette.api.user.domain.User
 import java.time.LocalDate
 
 class Roulette(
-    private val dailyBudget: DailyBudget,
+    private val rouletteBudget: RouletteBudget,
     private val user: User,
     private val roulettePointPolicy: RoulettePointPolicy = RoulettePointPolicy(),
     private val eventDate: LocalDate = LocalDate.now(),
 ) {
-    fun canParticipate(): Boolean = dailyBudget.canParticipate(roulettePointPolicy.getMinPoint())
+    fun canParticipate(): Boolean = rouletteBudget.canParticipate(roulettePointPolicy.getMinPoint())
 
     fun participate(): RouletteHistory {
         // 랜덤 포인트 생성
-        val earnedPoint = roulettePointPolicy.generateRandomPoints(dailyBudget.remainingBudget)
+        val earnedPoint = roulettePointPolicy.generateRandomPoints(rouletteBudget.remainingBudget)
 
         // 예산 차감
-        dailyBudget.deductBudget(earnedPoint)
+        rouletteBudget.deductBudget(earnedPoint)
 
         // 사용자 포인트 적립
         user.addBalance(earnedPoint)
@@ -32,7 +32,7 @@ class Roulette(
             earnPoint = earnedPoint.value,
         )
 
-    fun getDailyBudget() = dailyBudget
+    fun getRouletteBudget() = rouletteBudget
 
     fun getUser() = user
 }

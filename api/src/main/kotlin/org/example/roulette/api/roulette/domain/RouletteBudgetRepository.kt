@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository
 import java.time.LocalDate
 
 @Repository
-interface DailyBudgetRepository : JpaRepository<DailyBudget, Long> {
-    fun findByBudgetDate(budgetDate: LocalDate): DailyBudget?
+interface RouletteBudgetRepository : JpaRepository<RouletteBudget, Long> {
+    fun findByBudgetDate(budgetDate: LocalDate): RouletteBudget?
 }

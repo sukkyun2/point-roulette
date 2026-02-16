@@ -12,8 +12,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "daily_budget")
-data class DailyBudget(
+@Table(name = "roulette_budget")
+data class RouletteBudget(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
