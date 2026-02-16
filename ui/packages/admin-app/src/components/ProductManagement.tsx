@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { useProducts } from '../hooks/useProducts';
 import { useCreateProductMutation, useUpdateProductMutation } from '../hooks/useProductMutations';
 import ProductModal from './ProductModal';
 import type { ProductListQueryResponse } from '@shared/api-models';
+import { useGetProducts } from '../api/product-list-query-api/product-list-query-api.ts';
 
 const ProductManagement = () => {
-  const { data: productsResponse, isLoading, error } = useProducts();
+  const { data: productsResponse, isLoading, error } = useGetProducts();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<ProductListQueryResponse | null>(null);
 
   const createMutation = useCreateProductMutation();
   const updateMutation = useUpdateProductMutation();
 
-  const products = productsResponse?.data?.data || [];
+  const products = productsResponse?.data || [];
 
   const handleCreate = () => {
     setEditingProduct(null);
