@@ -33,7 +33,7 @@ class Order(
 ) {
     fun cancel() {
         if (isCancelled()) {
-            throw IllegalStateException("취소된 주문은 상태 변경이 불가능합니다")
+            throw OrderNotCancelableException()
         }
 
         this.status = OrderStatus.CANCELLED
