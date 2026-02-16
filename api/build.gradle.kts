@@ -41,15 +41,15 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-flyway-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
-    
+
     // Kotest
     testImplementation("io.kotest:kotest-runner-junit5:5.8.0")
     testImplementation("io.kotest:kotest-assertions-core:5.8.0")
     testImplementation("io.kotest:kotest-property:5.8.0")
-    
+
     // MockK
     testImplementation("io.mockk:mockk:1.13.8")
-    
+
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
