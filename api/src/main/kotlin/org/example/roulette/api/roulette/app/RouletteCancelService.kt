@@ -3,7 +3,6 @@ package org.example.roulette.api.roulette.app
 import org.example.roulette.api.common.app.NoDataException
 import org.example.roulette.api.point.app.PointBalanceService
 import org.example.roulette.api.point.domain.Point
-import org.example.roulette.api.point.domain.ReferenceType
 import org.example.roulette.api.roulette.domain.RouletteBudgetRepository
 import org.example.roulette.api.roulette.domain.RouletteHistoryRepository
 import org.springframework.stereotype.Service
@@ -37,8 +36,6 @@ class RouletteCancelService(
         pointBalanceService.deductPoints(
             userId = rouletteHistory.userId,
             amount = earnedPoint.value,
-            referenceType = ReferenceType.ROULETTE_CANCEL,
-            referenceId = rouletteHistoryId,
         )
     }
 }

@@ -2,7 +2,6 @@ package org.example.roulette.api.point.app
 
 import org.example.roulette.api.point.domain.Point
 import org.example.roulette.api.point.domain.PointType
-import org.example.roulette.api.point.domain.ReferenceType
 import org.example.roulette.api.user.domain.UserQueryService
 import org.example.roulette.api.user.domain.UserRepository
 import org.springframework.stereotype.Service
@@ -18,8 +17,6 @@ class PointBalanceService(
     fun deductPoints(
         userId: Long,
         amount: Long,
-        referenceType: ReferenceType,
-        referenceId: Long,
     ) {
         val user = userQueryService.getUser(userId)
 
@@ -30,16 +27,12 @@ class PointBalanceService(
             userId = userId,
             amount = amount,
             type = PointType.USE,
-            referenceType = referenceType,
-            referenceId = referenceId,
         )
     }
 
     fun addPoints(
         userId: Long,
         amount: Long,
-        referenceType: ReferenceType,
-        referenceId: Long,
     ) {
         val user = userQueryService.getUser(userId)
 
@@ -50,8 +43,6 @@ class PointBalanceService(
             userId = userId,
             amount = amount,
             type = PointType.REFUND,
-            referenceType = referenceType,
-            referenceId = referenceId,
         )
     }
 }

@@ -24,11 +24,6 @@ class PointHistory(
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     val type: PointType,
-    @Enumerated(EnumType.STRING)
-    @Column(name = "reference_type")
-    val referenceType: ReferenceType,
-    @Column(name = "reference_id")
-    val referenceId: Long?,
     @Column(name = "created_at")
     val createdAt: LocalDateTime = LocalDateTime.now(),
 ) {
@@ -53,10 +48,4 @@ enum class PointType {
             EARN, REFUND -> true
             USE -> false
         }
-}
-
-enum class ReferenceType {
-    ROULETTE,
-    ROULETTE_CANCEL,
-    ORDER,
 }

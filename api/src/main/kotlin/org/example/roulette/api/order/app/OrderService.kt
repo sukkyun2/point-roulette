@@ -6,7 +6,6 @@ import org.example.roulette.api.order.domain.Order
 import org.example.roulette.api.order.domain.OrderRepository
 import org.example.roulette.api.point.app.PointBalanceService
 import org.example.roulette.api.point.domain.Point
-import org.example.roulette.api.point.domain.ReferenceType
 import org.example.roulette.api.product.domain.Product
 import org.example.roulette.api.product.domain.ProductRepository
 import org.example.roulette.api.user.domain.UserQueryService
@@ -44,8 +43,6 @@ class OrderService(
         pointBalanceService.deductPoints(
             userId = userId,
             amount = product.price,
-            referenceType = ReferenceType.ORDER,
-            referenceId = savedOrder.id,
         )
 
         return savedOrder

@@ -4,7 +4,6 @@ import org.example.roulette.api.common.app.NoDataException
 import org.example.roulette.api.order.domain.Order
 import org.example.roulette.api.order.domain.OrderRepository
 import org.example.roulette.api.point.app.PointBalanceService
-import org.example.roulette.api.point.domain.ReferenceType
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -21,8 +20,6 @@ class OrderCancelService(
         pointBalanceService.addPoints(
             userId = order.userId,
             amount = order.priceAtOrder,
-            referenceType = ReferenceType.ORDER,
-            referenceId = orderId,
         )
 
         orderRepository.save(order)

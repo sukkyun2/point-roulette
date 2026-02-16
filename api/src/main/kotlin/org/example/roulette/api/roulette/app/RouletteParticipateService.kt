@@ -2,11 +2,11 @@ package org.example.roulette.api.roulette.app
 
 import org.example.roulette.api.point.app.PointBalanceService
 import org.example.roulette.api.point.domain.Point
-import org.example.roulette.api.point.domain.ReferenceType
 import org.example.roulette.api.roulette.domain.Roulette
 import org.example.roulette.api.roulette.domain.RouletteBudgetRepository
 import org.example.roulette.api.roulette.domain.RouletteHistory
 import org.example.roulette.api.roulette.domain.RouletteHistoryRepository
+import org.example.roulette.api.roulette.domain.RouletteStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -35,10 +35,11 @@ class RouletteParticipateService(
         }
 
         val earnPoints = roulette.participate()
+        val rouletteHistory = RouletteHistory(userId = userId, earnPoint = earnPoints.value, eventDate = today)
 
-        val saved = rouletteHistoryRepository.save(RouletteHistory(userId = userId, earnPoint = earnPoints.value, eventDate = today))
+        rouletteHistoryRepository.save(rouletteHistory)
         rouletteBudgetRepository.save(roulette.getRouletteBudget())
-        pointBalanceService.addPoints(userId, earnPoints.value, ReferenceType.ROULETTE, saved.id)
+        pointBalanceService.addPoints(userId, earnPoints.value)
 
         return earnPoints
     }
@@ -46,5 +47,5 @@ class RouletteParticipateService(
     private fun existsRouletteHistory(
         userId: Long,
         eventDate: LocalDate,
-    ): Boolean = rouletteHistoryRepository.existsByUserIdAndEventDate(userId, eventDate)
+    ): Boolean = rouletteHistoryRepository.existsByUserIdAndEventDateAndStatus(userId, eventDate, RouletteStatus.SUCCESS)
 }
