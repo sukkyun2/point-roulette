@@ -13,11 +13,12 @@ class ProductCreateService(
 ) {
     fun createProduct(request: CreateProductRequest) {
         validator.validate(request)
-        
-        val product = Product(
-            name = request.name,
-            price = request.price,
-        )
+
+        val product =
+            Product(
+                name = request.name,
+                price = request.price,
+            )
         productRepository.save(product)
     }
 }

@@ -17,15 +17,17 @@ class ProductUpdateService(
         request: ProductUpdateRequest,
     ) {
         validator.validate(request)
-        
-        val product = productRepository.findByIdOrNull(id)
-            ?: throw NoDataException("상품을 찾을 수 없습니다.")
 
-        val updatedProduct = product.update(
-            name = request.name,
-            price = request.price,
-        )
-        
+        val product =
+            productRepository.findByIdOrNull(id)
+                ?: throw NoDataException("상품을 찾을 수 없습니다.")
+
+        val updatedProduct =
+            product.update(
+                name = request.name,
+                price = request.price,
+            )
+
         productRepository.save(updatedProduct)
     }
 }

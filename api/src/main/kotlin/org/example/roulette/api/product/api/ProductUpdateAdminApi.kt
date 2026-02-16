@@ -1,8 +1,8 @@
 package org.example.roulette.api.product.api
 
 import org.example.roulette.api.common.api.ApiResponse
-import org.example.roulette.api.product.app.ProductUpdateService
 import org.example.roulette.api.product.app.ProductUpdateRequest
+import org.example.roulette.api.product.app.ProductUpdateService
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
