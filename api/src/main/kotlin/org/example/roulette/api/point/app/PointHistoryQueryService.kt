@@ -1,6 +1,5 @@
 package org.example.roulette.api.point.app
 
-import org.example.roulette.api.common.app.NoDataException
 import org.example.roulette.api.point.domain.PointHistory
 import org.example.roulette.api.point.domain.PointHistoryRepository
 import org.example.roulette.api.point.domain.PointType
@@ -38,8 +37,7 @@ class PointHistoryQueryService(
         return PointHistoryQueryResponse(balance, history)
     }
 
-    fun getPointHistory(userId: Long): List<PointHistory> =
-        pointHistoryRepository.findByUserIdOrderByCreatedAtDesc(userId)
+    fun getPointHistory(userId: Long): List<PointHistory> = pointHistoryRepository.findByUserIdOrderByCreatedAtDesc(userId)
 
     fun calculateAvailableBalance(userId: Long): Long = userQueryService.getUser(userId).balance
 

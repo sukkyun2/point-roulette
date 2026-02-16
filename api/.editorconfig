@@ -1,5 +1,4 @@
 root = true
 
 [*.{kt,kts}]
-max_line_length=120
-ktlint_function_signature = disabled
+max_line_length=150
