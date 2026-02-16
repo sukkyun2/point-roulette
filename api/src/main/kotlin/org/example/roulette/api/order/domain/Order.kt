@@ -41,6 +41,21 @@ class Order(
     }
 
     fun isCancelled(): Boolean = status == OrderStatus.CANCELLED
+
+    companion object {
+        fun create(
+            userId: Long,
+            productId: Long,
+            priceAtOrder: Long,
+        ): Order {
+            return Order(
+                userId = userId,
+                productId = productId,
+                priceAtOrder = priceAtOrder,
+                status = OrderStatus.COMPLETED,
+            )
+        }
+    }
 }
 
 enum class OrderStatus {

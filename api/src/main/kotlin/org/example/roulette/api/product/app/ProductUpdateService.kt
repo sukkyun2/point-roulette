@@ -20,7 +20,7 @@ class ProductUpdateService(
 
         val product =
             productRepository.findByIdOrNull(id)
-                ?: throw NoDataException("상품을 찾을 수 없습니다.")
+                ?: throw NoDataException()
 
         val updatedProduct =
             product.update(

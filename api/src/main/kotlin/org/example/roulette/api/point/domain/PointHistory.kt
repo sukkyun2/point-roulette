@@ -25,6 +25,7 @@ class PointHistory(
     @Column(name = "type")
     val type: PointType,
     @Enumerated(EnumType.STRING)
+    //FIXME referencetypeid
     @Column(name = "reference_type")
     val referenceType: ReferenceType,
     @Column(name = "reference_id")
@@ -46,13 +47,10 @@ enum class PointType {
     EARN,
     USE,
     REFUND,
-    RECLAIM,
-    EXPIRE,
 }
 
 enum class ReferenceType {
     ROULETTE,
     ROULETTE_CANCEL,
     ORDER,
-    NONE,
 }

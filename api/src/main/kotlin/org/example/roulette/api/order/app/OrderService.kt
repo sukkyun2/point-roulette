@@ -1,9 +1,9 @@
 package org.example.roulette.api.order.app
 
 import org.example.roulette.api.common.app.NoDataException
+import org.example.roulette.api.order.api.OrderRequest
 import org.example.roulette.api.order.domain.Order
 import org.example.roulette.api.order.domain.OrderRepository
-import org.example.roulette.api.order.domain.OrderStatus
 import org.example.roulette.api.point.app.PointBalanceService
 import org.example.roulette.api.point.domain.Point
 import org.example.roulette.api.point.domain.ReferenceType
@@ -23,22 +23,20 @@ class OrderService(
 ) {
     fun createOrder(
         userId: Long,
-        productId: Long,
+        request: OrderRequest,
     ): Order {
         val user = userQueryService.getUser(userId)
-        val product = getProduct(productId)
+        val product = getProduct(request.productId)
 
         if (!user.canDeduct(Point(product.price))) {
             throw InsufficientPointException()
         }
 
-        val order =
-            Order(
-                userId = userId,
-                productId = product.id,
-                priceAtOrder = product.price,
-                status = OrderStatus.COMPLETED,
-            )
+        val order = Order.create(
+            userId = userId,
+            productId = product.id,
+            priceAtOrder = product.price,
+        )
 
         val savedOrder = orderRepository.save(order)
 

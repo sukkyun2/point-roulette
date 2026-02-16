@@ -33,6 +33,4 @@ class Roulette(
         )
 
     fun getRouletteBudget() = rouletteBudget
-
-    fun getUser() = user
 }

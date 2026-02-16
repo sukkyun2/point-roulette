@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional
 class PointHistoryAppender(
     private val pointHistoryRepository: PointHistoryRepository,
 ) {
-    @Transactional(readOnly = false)
     fun appendPointHistory(
         userId: Long,
         amount: Long,

@@ -1,6 +1,5 @@
 package org.example.roulette.api.roulette.app
 
-import org.example.roulette.api.common.app.NoDataException
 import org.example.roulette.api.point.app.PointHistoryAppender
 import org.example.roulette.api.point.domain.Point
 import org.example.roulette.api.point.domain.PointType
@@ -26,19 +25,16 @@ class RouletteParticipateService(
         val today = LocalDate.now()
         val user = userQueryService.getUser(userId)
 
-        // 당일 참여 이력 검증
         if (existsRouletteHistory(userId, today)) {
             throw AlreadyParticipatedTodayException()
         }
 
-        // 당일 예산 조회
         val rouletteBudget =
             rouletteBudgetRepository.findByBudgetDate(today)
                 ?: throw EventPeriodException()
 
         val roulette = Roulette(rouletteBudget, user)
 
-        // 예산 충분성 검증
         if (!roulette.canParticipate()) {
             throw InsufficientBudgetException()
         }
