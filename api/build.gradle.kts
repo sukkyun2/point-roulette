@@ -38,6 +38,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     runtimeOnly("org.postgresql:postgresql")
+    testImplementation("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-flyway-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
@@ -46,6 +47,7 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5:5.8.0")
     testImplementation("io.kotest:kotest-assertions-core:5.8.0")
     testImplementation("io.kotest:kotest-property:5.8.0")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
 
     // MockK
     testImplementation("io.mockk:mockk:1.13.8")

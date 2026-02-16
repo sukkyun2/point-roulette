@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    hikari:
+      maximum-pool-size: 30
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        
+  flyway:
+    enabled: false
+    
+  h2:
+    console:
+      enabled: true
+      
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret: q7Xr2kq0YxkqB3L9wP6JZ3f9V2mQmKQvT0lL9K8dY1M=
+  expiration: 600000

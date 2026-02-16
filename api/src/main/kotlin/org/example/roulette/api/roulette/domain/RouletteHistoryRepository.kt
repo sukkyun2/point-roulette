@@ -27,4 +27,9 @@ interface RouletteHistoryRepository : JpaRepository<RouletteHistory, Long> {
     fun findAllByStatus(
         @Param("status") status: RouletteStatus?,
     ): List<RouletteHistory>
+
+    fun findByEventDateAndStatus(
+        eventDate: LocalDate,
+        status: RouletteStatus,
+    ): List<RouletteHistory>
 }
