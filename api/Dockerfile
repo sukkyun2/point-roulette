@@ -4,6 +4,7 @@ WORKDIR /workspace/app
 COPY build.gradle.kts settings.gradle.kts ./
 COPY gradle gradle
 COPY gradlew ./
+COPY .editorconfig ./
 RUN chmod +x ./gradlew
 
 RUN ./gradlew dependencies --no-daemon
