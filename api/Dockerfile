@@ -9,7 +9,7 @@ RUN chmod +x ./gradlew
 RUN ./gradlew dependencies --no-daemon
 
 COPY src src
-RUN ./gradlew build -x test --parallel --no-daemon --info
+RUN ./gradlew build --parallel --no-daemon
 RUN mkdir -p build/extracted && (java -Djarmode=tools -jar build/libs/api.jar extract --layers --launcher --destination build/extracted)
 
 FROM eclipse-temurin:17-jre-alpine
