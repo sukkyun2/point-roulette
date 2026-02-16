@@ -18,7 +18,7 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query';
 
-import type { ApiResponseOrderHistoryListQueryResponse } from '.././models';
+import type { ApiResponseOrderHistoryListQueryResponse } from '@shared/api-models';
 
 import { axiosInstance } from '.././axiosInstance';
 
@@ -29,13 +29,13 @@ export const getOrderHistory = (
   signal?: AbortSignal
 ) => {
   return axiosInstance<ApiResponseOrderHistoryListQueryResponse>(
-    { url: `/api/orders/history`, method: 'GET', signal },
+    { url: `/api/orders`, method: 'GET', signal },
     options
   );
 };
 
 export const getGetOrderHistoryQueryKey = () => {
-  return [`/api/orders/history`] as const;
+  return [`/api/orders`] as const;
 };
 
 export const getGetOrderHistoryQueryOptions = <

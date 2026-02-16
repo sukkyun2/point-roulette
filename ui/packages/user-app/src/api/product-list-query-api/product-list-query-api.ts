@@ -18,13 +18,13 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query';
 
-import type { ApiResponseListProductListQueryResponse } from '.././models';
+import type { ApiResponseListProductListQueryResponse } from '@shared/api-models';
 
 import { axiosInstance } from '.././axiosInstance';
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-export const getProducts = (
+export const getProducts1 = (
   options?: SecondParameter<typeof axiosInstance>,
   signal?: AbortSignal
 ) => {
@@ -34,26 +34,26 @@ export const getProducts = (
   );
 };
 
-export const getGetProductsQueryKey = () => {
+export const getGetProducts1QueryKey = () => {
   return [`/api/products`] as const;
 };
 
-export const getGetProductsQueryOptions = <
-  TData = Awaited<ReturnType<typeof getProducts>>,
+export const getGetProducts1QueryOptions = <
+  TData = Awaited<ReturnType<typeof getProducts1>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getProducts>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof getProducts1>>, TError, TData>
   >;
   request?: SecondParameter<typeof axiosInstance>;
 }) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getGetProductsQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getGetProducts1QueryKey();
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getProducts>>> = ({
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getProducts1>>> = ({
     signal,
-  }) => getProducts(requestOptions, signal);
+  }) => getProducts1(requestOptions, signal);
 
   return {
     queryKey,
@@ -62,30 +62,30 @@ export const getGetProductsQueryOptions = <
     refetchOnWindowFocus: false,
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<typeof getProducts>>,
+    Awaited<ReturnType<typeof getProducts1>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type GetProductsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getProducts>>
+export type GetProducts1QueryResult = NonNullable<
+  Awaited<ReturnType<typeof getProducts1>>
 >;
-export type GetProductsQueryError = unknown;
+export type GetProducts1QueryError = unknown;
 
-export function useGetProducts<
-  TData = Awaited<ReturnType<typeof getProducts>>,
+export function useGetProducts1<
+  TData = Awaited<ReturnType<typeof getProducts1>>,
   TError = unknown,
 >(
   options: {
     query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getProducts>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getProducts1>>, TError, TData>
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getProducts>>,
+          Awaited<ReturnType<typeof getProducts1>>,
           TError,
-          Awaited<ReturnType<typeof getProducts>>
+          Awaited<ReturnType<typeof getProducts1>>
         >,
         'initialData'
       >;
@@ -95,19 +95,19 @@ export function useGetProducts<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetProducts<
-  TData = Awaited<ReturnType<typeof getProducts>>,
+export function useGetProducts1<
+  TData = Awaited<ReturnType<typeof getProducts1>>,
   TError = unknown,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getProducts>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getProducts1>>, TError, TData>
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getProducts>>,
+          Awaited<ReturnType<typeof getProducts1>>,
           TError,
-          Awaited<ReturnType<typeof getProducts>>
+          Awaited<ReturnType<typeof getProducts1>>
         >,
         'initialData'
       >;
@@ -117,13 +117,13 @@ export function useGetProducts<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetProducts<
-  TData = Awaited<ReturnType<typeof getProducts>>,
+export function useGetProducts1<
+  TData = Awaited<ReturnType<typeof getProducts1>>,
   TError = unknown,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getProducts>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getProducts1>>, TError, TData>
     >;
     request?: SecondParameter<typeof axiosInstance>;
   },
@@ -132,13 +132,13 @@ export function useGetProducts<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useGetProducts<
-  TData = Awaited<ReturnType<typeof getProducts>>,
+export function useGetProducts1<
+  TData = Awaited<ReturnType<typeof getProducts1>>,
   TError = unknown,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getProducts>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getProducts1>>, TError, TData>
     >;
     request?: SecondParameter<typeof axiosInstance>;
   },
@@ -146,7 +146,7 @@ export function useGetProducts<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetProductsQueryOptions(options);
+  const queryOptions = getGetProducts1QueryOptions(options);
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

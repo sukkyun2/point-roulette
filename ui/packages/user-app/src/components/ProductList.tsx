@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetProducts } from '../api/product-list-query-api/product-list-query-api';
+import { useGetProducts1 as useGetProducts } from '../api/product-list-query-api/product-list-query-api';
 import { ProductListQueryResponse } from '../api/models';
 import { useAuth } from '../contexts/AuthContext';
 import { useCreateOrder } from '../api/order-api/order-api';

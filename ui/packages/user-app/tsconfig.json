@@ -3,7 +3,10 @@
   "compilerOptions": {
     "types": ["node"],
     "composite": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "paths": {
+      "@shared/*": ["../shared/src/*"]
+    }
   },
   "include": [
     "src/**/*",

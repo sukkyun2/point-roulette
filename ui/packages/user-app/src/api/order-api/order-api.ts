@@ -13,7 +13,10 @@ import type {
   UseMutationResult,
 } from '@tanstack/react-query';
 
-import type { ApiResponse, OrderRequest } from '.././models';
+import type {
+  ApiResponse,
+  OrderRequest,
+} from '@shared/api-models';
 
 import { axiosInstance } from '.././axiosInstance';
 

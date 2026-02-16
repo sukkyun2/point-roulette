@@ -25,7 +25,7 @@ import type {
   ApiResponseLoginResult,
   ApiResponseSimpleUser,
   LoginRequest,
-} from '.././models';
+} from '@shared/api-models';
 
 import { axiosInstance } from '.././axiosInstance';
 

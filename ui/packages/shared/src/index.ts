@@ -1,2 +1,2 @@
-// Placeholder for shared package
-export {};
+// Re-export all API models
+export * from './api-models';

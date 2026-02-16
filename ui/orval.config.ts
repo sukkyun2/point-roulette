@@ -26,14 +26,14 @@ export default defineConfig({
     output: {
       mode: 'tags-split',
       target: './packages/user-app/src/api',
-      schemas: './packages/shared/api-models',
+      schemas: './packages/shared/src/api-models',
       client: 'react-query',
       httpClient: 'axios',
       prettier: true,
       fileExtension: '.ts',
       override: {
         mutator: {
-          path: './packages/user-app/src/api/axiosInstance.tsx',
+          path: './packages/user-app/src/api/axiosInstance.ts',
           name: 'axiosInstance',
         },
         query: {
@@ -71,14 +71,14 @@ export default defineConfig({
     output: {
       mode: 'tags-split',
       target: './packages/admin-app/src/api',
-      schemas: './packages/shared/api-models',
+      schemas: './packages/shared/src/api-models',
       client: 'react-query',
       httpClient: 'axios',
       prettier: true,
       fileExtension: '.ts',
       override: {
         mutator: {
-          path: './packages/admin-app/src/api/axiosInstance.tsx',
+          path: './packages/admin-app/src/api/axiosInstance.ts',
           name: 'axiosInstance',
         },
         query: {

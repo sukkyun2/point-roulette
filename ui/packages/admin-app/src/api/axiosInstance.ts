@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 const BASE_URL =
-  (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:8080';
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 const axiosClient = axios.create({
   baseURL: BASE_URL,
@@ -10,20 +10,6 @@ const axiosClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-// Request interceptor for adding auth tokens
-axiosClient.interceptors.request.use(
-  config => {
-    const token = localStorage.getItem('admin-token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  }
-);
 
 // Response interceptor for handling errors
 axiosClient.interceptors.response.use(
@@ -36,12 +22,7 @@ axiosClient.interceptors.response.use(
       return Promise.reject(error);
     }
     
-    if (error.response?.status === 401) {
-      // Handle unauthorized access
-      localStorage.removeItem('admin-token');
-      alert('관리자 권한이 필요합니다. 다시 로그인해주세요.');
-      window.location.href = '/admin/login';
-    } else if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK') {
+    if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK') {
       // Only show alert for actual network connection errors
       console.error('Network connection error:', error);
       alert('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
@@ -56,18 +37,21 @@ axiosClient.interceptors.response.use(
   }
 );
 
-export const axiosInstance = <T = any,>(
+export interface CancelablePromise<T> extends Promise<T> {
+  cancel: () => void;
+}
+
+export const axiosInstance = <T = unknown>(
   config: AxiosRequestConfig,
   options?: AxiosRequestConfig
-): Promise<T> => {
+): CancelablePromise<T> => {
   const source = axios.CancelToken.source();
   const promise = axiosClient({
     ...config,
     ...options,
     cancelToken: source.token,
-  }).then(({ data }) => data);
+  }).then(({ data }) => data) as CancelablePromise<T>;
 
-  // @ts-ignore
   promise.cancel = () => {
     source.cancel('Query was cancelled');
   };

@@ -1,4 +1,5 @@
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { RefetchProvider, useRefetch } from './contexts/RefetchContext';
 import { LoginForm } from './components/LoginForm';
 import { RoulettePage } from './components/RoulettePage';
 import { ProductListPage } from './pages/ProductListPage';
@@ -66,14 +67,14 @@ const Navigation = ({ currentPage, onPageChange }: {
 
 const AppContent = () => {
   const { isAuthenticated, isLoading, refreshUser } = useAuth();
+  const { refetchPage } = useRefetch();
   const [currentPage, setCurrentPage] = useState<Page>('roulette');
 
   const handlePageChange = (page: Page) => {
     setCurrentPage(page);
-    // Refresh user data when switching to products page to get updated balance
-    if (page === 'products') {
-      refreshUser();
-    }
+    // Refresh user data and page-specific data when switching pages
+    refreshUser();
+    refetchPage(page);
   };
 
   if (isLoading) {
@@ -102,7 +103,9 @@ const AppContent = () => {
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <RefetchProvider>
+        <AppContent />
+      </RefetchProvider>
     </AuthProvider>
   );
 }

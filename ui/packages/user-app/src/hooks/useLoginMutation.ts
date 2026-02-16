@@ -9,8 +9,7 @@ export const useLoginMutation = (options?: LoginMutationOptions) => {
   return useLogin({
     mutation: {
       onSuccess: response => {
-        const responseData = response.data as Required<LoginResult>
-        options?.onSuccess?.(responseData);
+        options?.onSuccess?.(response.data);
       },
     },
   });

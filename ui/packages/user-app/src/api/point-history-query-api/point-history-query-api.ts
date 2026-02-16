@@ -18,7 +18,7 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query';
 
-import type { ApiResponsePointHistoryQueryResponse } from '.././models';
+import type { ApiResponsePointHistoryQueryResponse } from '@shared/api-models';
 
 import { axiosInstance } from '.././axiosInstance';
 
@@ -29,13 +29,13 @@ export const getPointHistory = (
   signal?: AbortSignal
 ) => {
   return axiosInstance<ApiResponsePointHistoryQueryResponse>(
-    { url: `/api/point/history`, method: 'GET', signal },
+    { url: `/api/points`, method: 'GET', signal },
     options
   );
 };
 
 export const getGetPointHistoryQueryKey = () => {
-  return [`/api/point/history`] as const;
+  return [`/api/points`] as const;
 };
 
 export const getGetPointHistoryQueryOptions = <
