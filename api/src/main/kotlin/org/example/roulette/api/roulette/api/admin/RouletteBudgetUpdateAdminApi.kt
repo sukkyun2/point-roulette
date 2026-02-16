@@ -15,7 +15,7 @@ class RouletteBudgetUpdateAdminApi(
     @PutMapping("/api/admin/budgets/{budgetId}")
     fun updateRouletteBudget(
         @PathVariable budgetId: Long,
-        @RequestBody request: RouletteBudgetUpdateRequest
+        @RequestBody request: RouletteBudgetUpdateRequest,
     ): ApiResponse<Nothing> {
         rouletteBudgetUpdateService.updateRouletteBudget(request)
         return ApiResponse.ok()
