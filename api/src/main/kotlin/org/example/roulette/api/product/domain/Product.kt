@@ -23,4 +23,14 @@ data class Product(
     val createdAt: LocalDateTime = LocalDateTime.now(),
     @Column(name = "updated_at")
     var updatedAt: LocalDateTime = LocalDateTime.now(),
-)
+) {
+    fun update(
+        name: String,
+        price: Long,
+    ): Product =
+        this.copy(
+            name = name,
+            price = price,
+            updatedAt = LocalDateTime.now(),
+        )
+}

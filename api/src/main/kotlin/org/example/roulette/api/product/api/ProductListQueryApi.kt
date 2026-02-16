@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 class ProductListQueryApi(
     private val productListQueryService: ProductListQueryService,
 ) {
-    @GetMapping("/api/products")
+    @GetMapping("/api/products", "/api/admin/products")
     @SwaggerApiResponse(schema = ProductListQueryResponse::class)
     fun getProducts(): ApiResponse<List<ProductListQueryResponse>> {
         val products = productListQueryService.findAll()
