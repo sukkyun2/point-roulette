@@ -2,7 +2,7 @@ package org.example.roulette.api.roulette.app
 
 import org.example.roulette.api.common.app.NoDataException
 import org.example.roulette.api.roulette.app.RouletteStatusQueryResponse
-import org.example.roulette.api.roulette.domain.DailyBudgetRepository
+import org.example.roulette.api.roulette.domain.RouletteBudgetRepository
 import org.example.roulette.api.roulette.domain.RouletteHistoryRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,7 +11,7 @@ import java.time.LocalDate
 @Service
 @Transactional(readOnly = true)
 class RouletteStatusQueryService(
-    private val dailyBudgetRepository: DailyBudgetRepository,
+    private val rouletteBudgetRepository: RouletteBudgetRepository,
     private val rouletteHistoryRepository: RouletteHistoryRepository,
 ) {
     fun getStatus(userId: Long): RouletteStatusQueryResponse {
@@ -19,13 +19,13 @@ class RouletteStatusQueryService(
 
         val hasParticipatedToday = rouletteHistoryRepository.existsByUserIdAndEventDate(userId, today)
 
-        val dailyBudget =
-            dailyBudgetRepository.findByBudgetDate(today)
+        val rouletteBudget =
+            rouletteBudgetRepository.findByBudgetDate(today)
                 ?: throw NoDataException()
 
         return RouletteStatusQueryResponse(
             hasParticipatedToday = hasParticipatedToday,
-            remainingBudget = dailyBudget.remainingBudget,
+            remainingBudget = rouletteBudget.remainingBudget,
         )
     }
 }

@@ -5,8 +5,8 @@ import org.example.roulette.api.point.app.PointHistoryAppender
 import org.example.roulette.api.point.domain.Point
 import org.example.roulette.api.point.domain.PointType
 import org.example.roulette.api.point.domain.ReferenceType
-import org.example.roulette.api.roulette.domain.DailyBudgetRepository
 import org.example.roulette.api.roulette.domain.Roulette
+import org.example.roulette.api.roulette.domain.RouletteBudgetRepository
 import org.example.roulette.api.roulette.domain.RouletteHistory
 import org.example.roulette.api.roulette.domain.RouletteHistoryRepository
 import org.example.roulette.api.user.domain.UserQueryService
@@ -18,7 +18,7 @@ import java.time.LocalDate
 @Transactional
 class RouletteParticipateService(
     private val userQueryService: UserQueryService,
-    private val dailyBudgetRepository: DailyBudgetRepository,
+    private val rouletteBudgetRepository: RouletteBudgetRepository,
     private val rouletteHistoryRepository: RouletteHistoryRepository,
     private val pointHistoryAppender: PointHistoryAppender,
 ) {
@@ -32,11 +32,11 @@ class RouletteParticipateService(
         }
 
         // 당일 예산 조회
-        val dailyBudget =
-            dailyBudgetRepository.findByBudgetDate(today)
+        val rouletteBudget =
+            rouletteBudgetRepository.findByBudgetDate(today)
                 ?: throw EventPeriodException()
 
-        val roulette = Roulette(dailyBudget, user)
+        val roulette = Roulette(rouletteBudget, user)
 
         // 예산 충분성 검증
         if (!roulette.canParticipate()) {
@@ -45,7 +45,7 @@ class RouletteParticipateService(
 
         val history = roulette.participate()
 
-        dailyBudgetRepository.save(roulette.getDailyBudget())
+        rouletteBudgetRepository.save(roulette.getRouletteBudget())
         appendHistory(history)
 
         return Point(history.earnPoint)

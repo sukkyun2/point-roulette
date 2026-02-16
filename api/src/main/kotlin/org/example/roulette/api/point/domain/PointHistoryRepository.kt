@@ -14,19 +14,6 @@ interface PointHistoryRepository : JpaRepository<PointHistory, Long> {
         SELECT ph FROM PointHistory ph 
         WHERE ph.userId = :userId 
         AND ph.type = 'EARN' 
-        AND ph.createdAt > :expirationThreshold
-        """,
-    )
-    fun findActiveEarnPointsByUserId(
-        userId: Long,
-        expirationThreshold: LocalDateTime,
-    ): List<PointHistory>
-
-    @Query(
-        """
-        SELECT ph FROM PointHistory ph 
-        WHERE ph.userId = :userId 
-        AND ph.type = 'EARN' 
         AND ph.createdAt > :from 
         AND ph.createdAt <= :to
         """,

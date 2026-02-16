@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class RouletteStatusQueryApi(
     private val rouletteStatusQueryService: RouletteStatusQueryService,
 ) {
-    @GetMapping("/api/roulette/status")
+    @GetMapping("/api/roulettes/current")
     fun getStatus(
         @CurrentUser user: SimpleUser,
     ): ApiResponse<RouletteStatusQueryResponse> {

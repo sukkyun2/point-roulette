@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 class RouletteParticipateApi(
     private val rouletteParticipateService: RouletteParticipateService,
 ) {
-    @PostMapping("/api/roulette/participate")
+    @PostMapping("/api/roulettes/current/participants")
     fun participate(
         @CurrentUser user: SimpleUser,
     ): ApiResponse<RouletteParticipateResponse> =

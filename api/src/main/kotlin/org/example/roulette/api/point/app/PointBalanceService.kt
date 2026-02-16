@@ -1,6 +1,5 @@
 package org.example.roulette.api.point.app
 
-import org.example.roulette.api.common.app.NoDataException
 import org.example.roulette.api.point.domain.Point
 import org.example.roulette.api.point.domain.PointType
 import org.example.roulette.api.point.domain.ReferenceType

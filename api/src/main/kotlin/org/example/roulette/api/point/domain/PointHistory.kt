@@ -52,6 +52,7 @@ enum class PointType {
 
 enum class ReferenceType {
     ROULETTE,
+    ROULETTE_CANCEL,
     ORDER,
     NONE,
 }
