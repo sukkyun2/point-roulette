@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'config/env_config.dart';
@@ -34,16 +35,37 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   late final WebViewController controller;
+  bool _hasError = false;
 
   @override
   void initState() {
     super.initState();
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onWebResourceError: (WebResourceError error) {
+            print('WebView Error: ${error.description}');
+            setState(() {
+              _hasError = true;
+            });
+            _loadFallbackPage();
+          },
+          onPageStarted: (String url) {
+            setState(() {
+              _hasError = false;
+            });
+          },
+        ),
+      )
       ..addJavaScriptChannel(
         'Flutter',
         onMessageReceived: (JavaScriptMessage message) {
-          _showNativeAlert(message.message);
+          if (message.message == 'retry') {
+            _retryConnection();
+          } else {
+            _showNativeAlert(message.message);
+          }
         },
       )
       ..loadRequest(Uri.parse(EnvConfig.webUrl));
@@ -63,6 +85,18 @@ class _WebViewPageState extends State<WebViewPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _loadFallbackPage() async {
+    final String fallbackHtml = await rootBundle.loadString('assets/fallback.html');
+    await controller.loadHtmlString(fallbackHtml);
+  }
+
+  void _retryConnection() {
+    setState(() {
+      _hasError = false;
+    });
+    controller.loadRequest(Uri.parse(EnvConfig.webUrl));
   }
 
   @override
