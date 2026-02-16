@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 const BASE_URL =
-  (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:8080';
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 const axiosClient = axios.create({
   baseURL: BASE_URL,
@@ -56,18 +56,21 @@ axiosClient.interceptors.response.use(
   }
 );
 
-export const axiosInstance = <T = any,>(
+export interface CancelablePromise<T> extends Promise<T> {
+  cancel: () => void;
+}
+
+export const axiosInstance = <T = unknown>(
   config: AxiosRequestConfig,
   options?: AxiosRequestConfig
-): Promise<T> => {
+): CancelablePromise<T> => {
   const source = axios.CancelToken.source();
   const promise = axiosClient({
     ...config,
     ...options,
     cancelToken: source.token,
-  }).then(({ data }) => data);
+  }).then(({ data }) => data) as CancelablePromise<T>;
 
-  // @ts-ignore
   promise.cancel = () => {
     source.cancel('Query was cancelled');
   };

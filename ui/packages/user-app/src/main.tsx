@@ -13,7 +13,7 @@ const AppWithProviders = () => (
 );
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  (import.meta as any).env?.DEV ? (
+  import.meta.env.DEV ? (
     // Disable StrictMode in development to prevent double API calls
     <AppWithProviders />
   ) : (
