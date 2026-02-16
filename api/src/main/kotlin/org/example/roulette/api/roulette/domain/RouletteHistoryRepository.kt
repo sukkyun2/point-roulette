@@ -17,4 +17,13 @@ interface RouletteHistoryRepository : JpaRepository<RouletteHistory, Long> {
     fun countDistinctUsersByEventDate(
         @Param("eventDate") eventDate: LocalDate,
     ): Long
+
+    @Query(
+        "SELECT rh FROM RouletteHistory rh " +
+            "WHERE (:status IS NULL OR rh.status = :status) " +
+            "ORDER BY rh.createdAt DESC",
+    )
+    fun findAllByStatus(
+        @Param("status") status: RouletteStatus?,
+    ): List<RouletteHistory>
 }
