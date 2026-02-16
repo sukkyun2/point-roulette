@@ -41,8 +41,7 @@ class PointHistoryQueryService(
     fun getPointHistory(userId: Long): List<PointHistory> =
         pointHistoryRepository.findByUserIdOrderByCreatedAtDesc(userId)
 
-    fun calculateAvailableBalance(userId: Long): Long =
-        userQueryService.getUser(userId).balance
+    fun calculateAvailableBalance(userId: Long): Long = userQueryService.getUser(userId).balance
 
     fun calculateExpiringSoonBalance(userId: Long): Long {
         val now = LocalDateTime.now()

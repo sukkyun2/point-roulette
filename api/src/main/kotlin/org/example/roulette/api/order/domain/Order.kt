@@ -32,7 +32,7 @@ class Order(
     var canceledAt: LocalDateTime? = null,
 ) {
     fun cancel() {
-        if(isCancelled()){
+        if (isCancelled()) {
             throw IllegalStateException("취소된 주문은 상태 변경이 불가능합니다")
         }
 
