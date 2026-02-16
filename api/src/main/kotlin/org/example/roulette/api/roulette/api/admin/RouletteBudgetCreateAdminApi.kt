@@ -1,6 +1,7 @@
 package org.example.roulette.api.roulette.api.admin
 
 import org.example.roulette.api.common.api.ApiResponse
+import org.example.roulette.api.common.app.ValidationException
 import org.example.roulette.api.roulette.app.RouletteBudgetCreateRequest
 import org.example.roulette.api.roulette.app.RouletteBudgetCreateService
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,7 +16,11 @@ class RouletteBudgetCreateAdminApi(
     fun createRouletteBudget(
         @RequestBody request: RouletteBudgetCreateRequest,
     ): ApiResponse<Unit> {
-        rouletteBudgetCreateService.createRouletteBudget(request)
-        return ApiResponse.ok()
+        try {
+            rouletteBudgetCreateService.createRouletteBudget(request)
+            return ApiResponse.ok()
+        } catch (ex: ValidationException) {
+            return ApiResponse.badRequest(ex.message)
+        }
     }
 }

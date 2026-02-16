@@ -21,7 +21,7 @@ data class RouletteBudget(
     @Column(name = "budget_date")
     val budgetDate: LocalDate,
     @Column(name = "total_budget")
-    val totalBudget: Long,
+    var totalBudget: Long,
     @Column(name = "remaining_budget")
     var remainingBudget: Long,
     @Column(name = "created_at")
@@ -41,6 +41,19 @@ data class RouletteBudget(
 
     fun addBudget(point: Point) {
         remainingBudget += point.value
+        updatedAt = LocalDateTime.now()
+    }
+
+    fun updateBudget(newTotalBudget: Long) {
+        val usedBudget = totalBudget - remainingBudget
+        val newRemainingBudget = newTotalBudget - usedBudget
+
+        require(newRemainingBudget >= 0) {
+            throw InsufficientBudgetException("사용한 예산(${usedBudget}p)보다 낮게 수정할 수 없습니다")
+        }
+
+        totalBudget = newTotalBudget
+        remainingBudget = newRemainingBudget
         updatedAt = LocalDateTime.now()
     }
 }

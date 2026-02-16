@@ -14,6 +14,11 @@ const axiosClient = axios.create({
 // Response interceptor for handling errors
 axiosClient.interceptors.response.use(
   response => {
+    // Check for application-level error codes in response data
+    if (response.data && response.data.code === "400") {
+      alert(response.data.message);
+      return Promise.reject(new Error(response.data.message));
+    }
     return response;
   },
   error => {

@@ -1,6 +1,8 @@
 package org.example.roulette.api.roulette.api.admin
 
 import org.example.roulette.api.common.api.ApiResponse
+import org.example.roulette.api.common.app.ValidationException
+import org.example.roulette.api.roulette.app.InsufficientBudgetException
 import org.example.roulette.api.roulette.app.RouletteBudgetUpdateRequest
 import org.example.roulette.api.roulette.app.RouletteBudgetUpdateService
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,7 +19,13 @@ class RouletteBudgetUpdateAdminApi(
         @PathVariable budgetId: Long,
         @RequestBody request: RouletteBudgetUpdateRequest,
     ): ApiResponse<Unit> {
-        rouletteBudgetUpdateService.updateRouletteBudget(request)
-        return ApiResponse.ok()
+        try {
+            rouletteBudgetUpdateService.updateRouletteBudget(request)
+            return ApiResponse.ok()
+        } catch (ex: InsufficientBudgetException) {
+            return ApiResponse.badRequest(ex.message)
+        } catch (ex: ValidationException) {
+            return ApiResponse.badRequest(ex.message)
+        }
     }
 }
