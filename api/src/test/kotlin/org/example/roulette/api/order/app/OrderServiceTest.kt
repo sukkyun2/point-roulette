@@ -20,7 +20,7 @@ import org.example.roulette.api.product.domain.ProductRepository
 import org.example.roulette.api.user.domain.User
 import org.example.roulette.api.user.domain.UserQueryService
 import java.time.LocalDateTime
-import java.util.*
+import java.util.Optional
 
 class OrderServiceTest :
     FunSpec({
