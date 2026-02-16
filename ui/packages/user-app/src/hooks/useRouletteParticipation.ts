@@ -14,7 +14,7 @@ export const useRouletteParticipation = (): RouletteParticipationResult => {
       const response = await participateMutation.mutateAsync();
       
       if(response.code === '400'){
-        showAppAlert(response.message);
+        showAppAlert(response.message || '이벤트에 참여할 수 없어요');
         return null;
       }
 
