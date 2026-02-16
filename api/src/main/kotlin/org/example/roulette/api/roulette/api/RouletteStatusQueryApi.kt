@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 class RouletteStatusQueryApi(
     private val rouletteStatusQueryService: RouletteStatusQueryService,
 ) {
-    @GetMapping("/api/roulette/status")
+    @GetMapping("/api/roulettes/current")
     @SwaggerApiResponse(schema = RouletteStatusQueryResponse::class)
     fun getStatus(
         @CurrentUser user: SimpleUser,

@@ -1,4 +1,4 @@
-package org.example.roulette.api.order.api
+package org.example.roulette.api.order.api.admin
 
 import org.example.roulette.api.common.api.ApiResponse
 import org.example.roulette.api.order.app.OrderHistoryQueryService

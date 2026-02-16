@@ -1,4 +1,4 @@
-package org.example.roulette.api.product.api
+package org.example.roulette.api.product.api.admin
 
 import org.example.roulette.api.common.api.ApiResponse
 import org.example.roulette.api.product.app.ProductUpdateRequest

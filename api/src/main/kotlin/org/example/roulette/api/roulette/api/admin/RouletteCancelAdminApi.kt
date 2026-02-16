@@ -1,4 +1,4 @@
-package org.example.roulette.api.roulette.api
+package org.example.roulette.api.roulette.api.admin
 
 import org.example.roulette.api.common.api.ApiResponse
 import org.example.roulette.api.roulette.app.RouletteCancelService
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 class RouletteCancelAdminApi(
     private val rouletteCancelService: RouletteCancelService,
 ) {
-    @PostMapping("/api/admin/roulette/{rouletteHistoryId}/cancel")
+    @PostMapping("/api/admin/roulettes/{rouletteHistoryId}/cancel")
     fun cancelRouletteParticipation(
         @PathVariable rouletteHistoryId: Long,
     ): ApiResponse<Nothing> =

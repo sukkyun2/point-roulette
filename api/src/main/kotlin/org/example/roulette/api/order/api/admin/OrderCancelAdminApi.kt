@@ -1,9 +1,7 @@
-package org.example.roulette.api.order.api
+package org.example.roulette.api.order.api.admin
 
 import org.example.roulette.api.common.api.ApiResponse
 import org.example.roulette.api.order.app.OrderCancelService
-import org.example.roulette.config.auth.CurrentUser
-import org.example.roulette.config.auth.SimpleUser
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
@@ -12,9 +10,8 @@ import org.springframework.web.bind.annotation.RestController
 class OrderCancelAdminApi(
     private val orderCancelService: OrderCancelService,
 ) {
-    @PostMapping("/api/orders/{orderId}/cancel")
+    @PostMapping("/api/admin/orders/{orderId}/cancel")
     fun cancelOrder(
-        @CurrentUser user: SimpleUser,
         @PathVariable orderId: Long,
     ): ApiResponse<Nothing> =
         try {

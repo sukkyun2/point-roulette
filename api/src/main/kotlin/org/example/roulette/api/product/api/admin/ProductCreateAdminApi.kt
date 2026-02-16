@@ -1,7 +1,6 @@
-package org.example.roulette.api.product.api
+package org.example.roulette.api.product.api.admin
 
 import org.example.roulette.api.common.api.ApiResponse
-import org.example.roulette.api.common.api.SwaggerApiResponse
 import org.example.roulette.api.product.app.CreateProductRequest
 import org.example.roulette.api.product.app.ProductCreateService
 import org.springframework.web.bind.annotation.PostMapping

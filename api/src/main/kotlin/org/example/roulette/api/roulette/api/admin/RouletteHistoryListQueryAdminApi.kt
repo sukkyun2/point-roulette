@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class RouletteHistoryListQueryAdminApi(
     private val rouletteHistoryListQueryService: RouletteHistoryListQueryService,
 ) {
-    @GetMapping("/api/admin/roulette/participations")
+    @GetMapping("/api/admin/roulettes/participations")
     fun getParticipationHistories(
         @RequestParam(required = false) status: RouletteStatus?,
     ): ApiResponse<RouletteParticipationHistoryListQueryResponse> {
