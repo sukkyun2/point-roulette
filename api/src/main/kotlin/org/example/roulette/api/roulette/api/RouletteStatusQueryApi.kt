@@ -1,7 +1,6 @@
 package org.example.roulette.api.roulette.api
 
 import org.example.roulette.api.common.api.ApiResponse
-import org.example.roulette.api.common.api.SwaggerApiResponse
 import org.example.roulette.api.roulette.app.RouletteStatusQueryResponse
 import org.example.roulette.api.roulette.app.RouletteStatusQueryService
 import org.example.roulette.config.auth.CurrentUser
@@ -14,7 +13,6 @@ class RouletteStatusQueryApi(
     private val rouletteStatusQueryService: RouletteStatusQueryService,
 ) {
     @GetMapping("/api/roulette/status")
-    @SwaggerApiResponse(schema = RouletteStatusQueryResponse::class)
     fun getStatus(
         @CurrentUser user: SimpleUser,
     ): ApiResponse<RouletteStatusQueryResponse> {

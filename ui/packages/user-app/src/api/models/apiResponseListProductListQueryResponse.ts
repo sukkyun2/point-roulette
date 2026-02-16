@@ -7,6 +7,8 @@
  */
 import type { ProductListQueryResponse } from './productListQueryResponse';
 
-export type GetProducts200AllOf = {
-  data?: ProductListQueryResponse;
-};
+export interface ApiResponseListProductListQueryResponse {
+  code: string;
+  message?: string;
+  data?: ProductListQueryResponse[];
+}

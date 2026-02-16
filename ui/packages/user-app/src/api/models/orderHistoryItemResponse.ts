@@ -5,12 +5,12 @@
  * 룰렛 게임 API 문서
  * OpenAPI spec version: 1.0.0
  */
-import type { OrderStatus } from './orderStatus';
+import type { OrderHistoryItemResponseStatus } from './orderHistoryItemResponseStatus';
 
 export interface OrderHistoryItemResponse {
-  createdAt?: string;
-  deductedPoints?: number;
-  id?: number;
-  productName?: string;
-  status?: OrderStatus;
+  id: number;
+  productName: string;
+  deductedPoints: number;
+  status: OrderHistoryItemResponseStatus;
+  createdAt: string;
 }

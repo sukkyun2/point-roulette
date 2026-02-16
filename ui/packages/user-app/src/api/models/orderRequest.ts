@@ -7,5 +7,5 @@
  */
 
 export interface OrderRequest {
-  productId: string;
+  productId: number;
 }

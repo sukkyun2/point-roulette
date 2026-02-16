@@ -18,7 +18,7 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query';
 
-import type { GetProducts200 } from '.././models';
+import type { ApiResponseListProductListQueryResponse } from '.././models';
 
 import { axiosInstance } from '.././axiosInstance';
 
@@ -28,7 +28,7 @@ export const getProducts = (
   options?: SecondParameter<typeof axiosInstance>,
   signal?: AbortSignal
 ) => {
-  return axiosInstance<GetProducts200>(
+  return axiosInstance<ApiResponseListProductListQueryResponse>(
     { url: `/api/products`, method: 'GET', signal },
     options
   );

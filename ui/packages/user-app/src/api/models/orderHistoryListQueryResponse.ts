@@ -8,5 +8,5 @@
 import type { OrderHistoryItemResponse } from './orderHistoryItemResponse';
 
 export interface OrderHistoryListQueryResponse {
-  orders?: OrderHistoryItemResponse[];
+  orders: OrderHistoryItemResponse[];
 }

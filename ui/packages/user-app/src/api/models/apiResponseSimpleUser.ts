@@ -7,6 +7,8 @@
  */
 import type { SimpleUser } from './simpleUser';
 
-export type GetCurrentUser200AllOf = {
+export interface ApiResponseSimpleUser {
+  code: string;
+  message?: string;
   data?: SimpleUser;
-};
+}

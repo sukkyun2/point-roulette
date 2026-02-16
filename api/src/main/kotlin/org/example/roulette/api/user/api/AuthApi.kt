@@ -1,7 +1,6 @@
 package org.example.roulette.api.user.api
 
 import org.example.roulette.api.common.api.ApiResponse
-import org.example.roulette.api.common.api.SwaggerApiResponse
 import org.example.roulette.api.user.app.AuthService
 import org.example.roulette.api.user.app.LoginRequest
 import org.example.roulette.api.user.app.LoginResult
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController
 class AuthApi(
     private val authService: AuthService,
 ) {
-    @SwaggerApiResponse(schema = LoginResult::class)
     @PostMapping("/api/auth/login")
     fun login(
         @RequestBody request: LoginRequest,
@@ -25,7 +23,6 @@ class AuthApi(
         return ApiResponse.ok(result)
     }
 
-    @SwaggerApiResponse(schema = SimpleUser::class)
     @GetMapping("/api/auth/me")
     fun getCurrentUser(
         @CurrentUser user: SimpleUser,

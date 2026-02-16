@@ -7,6 +7,8 @@
  */
 import type { LoginResult } from './loginResult';
 
-export type Login200AllOf = {
+export interface ApiResponseLoginResult {
+  code: string;
+  message?: string;
   data?: LoginResult;
-};
+}

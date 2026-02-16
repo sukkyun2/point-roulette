@@ -8,9 +8,7 @@
 import type { OrderHistoryListQueryResponse } from './orderHistoryListQueryResponse';
 
 export interface ApiResponseOrderHistoryListQueryResponse {
-  /** @nullable */
-  data?: OrderHistoryListQueryResponse | null;
-  /** @nullable */
-  message?: string | null;
-  success?: boolean;
+  code: string;
+  message?: string;
+  data?: OrderHistoryListQueryResponse;
 }
