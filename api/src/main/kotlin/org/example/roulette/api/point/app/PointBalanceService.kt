@@ -23,15 +23,33 @@ class PointBalanceService(
     ) {
         val user = userQueryService.getUser(userId)
 
-        // User balance 차감
         user.deductBalance(Point(amount))
         userRepository.save(user)
 
-        // PointHistory 기록
         pointHistoryAppender.appendPointHistory(
             userId = userId,
             amount = amount,
             type = PointType.USE,
+            referenceType = referenceType,
+            referenceId = referenceId,
+        )
+    }
+
+    fun addPoints(
+        userId: Long,
+        amount: Long,
+        referenceType: ReferenceType,
+        referenceId: Long,
+    ) {
+        val user = userQueryService.getUser(userId)
+
+        user.addBalance(Point(amount))
+        userRepository.save(user)
+
+        pointHistoryAppender.appendPointHistory(
+            userId = userId,
+            amount = amount,
+            type = PointType.REFUND,
             referenceType = referenceType,
             referenceId = referenceId,
         )

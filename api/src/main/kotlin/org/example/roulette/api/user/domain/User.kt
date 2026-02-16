@@ -37,10 +37,5 @@ class User(
         this.updatedAt = LocalDateTime.now()
     }
 
-    fun deductBalanceAllowNegative(point: Point) {
-        this.balance -= point.value
-        this.updatedAt = LocalDateTime.now()
-    }
-
     fun canDeduct(point: Point): Boolean = this.balance >= point.value
 }
