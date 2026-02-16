@@ -1,5 +1,6 @@
 package org.example.roulette.api.roulette.app
 
+import org.example.roulette.api.common.app.LockExecutor
 import org.example.roulette.api.point.app.PointBalanceService
 import org.example.roulette.api.point.domain.Point
 import org.example.roulette.api.roulette.domain.Roulette
@@ -8,17 +9,25 @@ import org.example.roulette.api.roulette.domain.RouletteHistory
 import org.example.roulette.api.roulette.domain.RouletteHistoryRepository
 import org.example.roulette.api.roulette.domain.RouletteStatus
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
 @Service
-@Transactional
 class RouletteParticipateService(
     private val rouletteBudgetRepository: RouletteBudgetRepository,
     private val rouletteHistoryRepository: RouletteHistoryRepository,
     private val pointBalanceService: PointBalanceService,
+    private val lockExecutor: LockExecutor,
 ) {
-    fun participate(userId: Long): Point {
+    companion object {
+        const val ROULETTE_PARTICIPATE_KEY = "roulette_participate"
+    }
+
+    fun participate(userId: Long): Point =
+        lockExecutor.runWithLock(ROULETTE_PARTICIPATE_KEY) {
+            participateInternal(userId)
+        }
+
+    fun participateInternal(userId: Long): Point {
         val today = LocalDate.now()
 
         if (existsRouletteHistory(userId, today)) {

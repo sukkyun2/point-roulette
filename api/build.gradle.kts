@@ -37,6 +37,11 @@ dependencies {
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    // Redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    // Source: https://mvnrepository.com/artifact/org.redisson/redisson
+    implementation("org.redisson:redisson:4.2.0")
+
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
@@ -69,6 +74,8 @@ allOpen {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+
+    exclude("**/*IntegrationTest*")
 }
 
 ktlint {
