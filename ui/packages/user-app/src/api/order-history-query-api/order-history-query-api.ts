@@ -7,8 +7,13 @@
  */
 import { useQuery } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
@@ -24,47 +29,43 @@ export const getOrderHistory = (
   signal?: AbortSignal
 ) => {
   return axiosInstance<ApiResponseOrderHistoryListQueryResponse>(
-    {
-      url: `/api/orders/history`,
-      method: 'GET',
-      signal,
-    },
+    { url: `/api/orders/history`, method: 'GET', signal },
     options
   );
 };
 
-export const getOrderHistoryQueryKey = () => {
-  return ['getOrderHistory'];
+export const getGetOrderHistoryQueryKey = () => {
+  return [`/api/orders/history`] as const;
 };
 
-export const getOrderHistoryQueryOptions = <
+export const getGetOrderHistoryQueryOptions = <
   TData = Awaited<ReturnType<typeof getOrderHistory>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getOrderHistory>>,
-      TError,
-      TData
-    >
+    UseQueryOptions<Awaited<ReturnType<typeof getOrderHistory>>, TError, TData>
   >;
   request?: SecondParameter<typeof axiosInstance>;
 }) => {
-  const queryKey = getOrderHistoryQueryKey();
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const { query: queryOptions, request: requestOptions } = options
-    ? options.query &&
-      'queryKey' in options.query &&
-      options.query.queryKey
-      ? options
-      : { ...options, query: { ...options.query, queryKey } }
-    : { query: { queryKey }, request: undefined };
+  const queryKey = queryOptions?.queryKey ?? getGetOrderHistoryQueryKey();
 
   const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrderHistory>>> = ({
     signal,
   }) => getOrderHistory(requestOptions, signal);
 
-  return { queryFn, ...queryOptions };
+  return {
+    queryKey,
+    queryFn,
+    staleTime: 300000,
+    refetchOnWindowFocus: false,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getOrderHistory>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
 export type GetOrderHistoryQueryResult = NonNullable<
@@ -72,20 +73,103 @@ export type GetOrderHistoryQueryResult = NonNullable<
 >;
 export type GetOrderHistoryQueryError = unknown;
 
-export const useGetOrderHistory = <
+export function useGetOrderHistory<
   TData = Awaited<ReturnType<typeof getOrderHistory>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getOrderHistory>>,
-      TError,
-      TData
-    >
-  >;
-  request?: SecondParameter<typeof axiosInstance>;
-}): UseQueryResult<TData, TError> => {
-  const queryOptions = getOrderHistoryQueryOptions(options);
-
-  return useQuery(queryOptions);
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getOrderHistory>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getOrderHistory>>,
+          TError,
+          Awaited<ReturnType<typeof getOrderHistory>>
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof axiosInstance>;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
 };
+export function useGetOrderHistory<
+  TData = Awaited<ReturnType<typeof getOrderHistory>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getOrderHistory>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getOrderHistory>>,
+          TError,
+          Awaited<ReturnType<typeof getOrderHistory>>
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof axiosInstance>;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetOrderHistory<
+  TData = Awaited<ReturnType<typeof getOrderHistory>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getOrderHistory>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof axiosInstance>;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetOrderHistory<
+  TData = Awaited<ReturnType<typeof getOrderHistory>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getOrderHistory>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof axiosInstance>;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetOrderHistoryQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

@@ -7,6 +7,8 @@
  */
 import type { RouletteParticipateResponse } from './rouletteParticipateResponse';
 
-export type Participate200AllOf = {
+export interface ApiResponseRouletteParticipateResponse {
+  code: string;
+  message?: string;
   data?: RouletteParticipateResponse;
-};
+}

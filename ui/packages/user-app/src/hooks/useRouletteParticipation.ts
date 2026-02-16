@@ -1,5 +1,6 @@
 import { useParticipate } from '../api/roulette-participate-api/roulette-participate-api';
 import { RouletteParticipateResponse } from '../api/models';
+import { isParticipateResponse, hasErrorCode } from '../utils/typeGuards';
 
 interface RouletteParticipationResult {
   participate: () => Promise<number | null>;
@@ -16,30 +17,35 @@ export const useRouletteParticipation = (): RouletteParticipationResult => {
       // 응답 구조 디버깅
       console.log('API Response:', response);
       
-      // 두 가지 가능한 응답 구조 처리
+      // 응답 구조 처리 - 두 가지 가능한 구조
       // 1. {code: "400", message: "...", data: null}
-      // 2. {data: {code: 400, message: "...", value: ...}}
+      // 2. {code: "200", data: {value: ...}}
       
-      const responseData = response as any;
-      const nestedData = (response as any).data as any;
-      
-      // 첫 번째 구조: response 자체에 code가 있는 경우
-      if (responseData?.code === "400" || responseData?.code === 400) {
-        alert(responseData.message || '참여할 수 없습니다.');
+      // 에러 응답인지 확인
+      if (hasErrorCode(response, "400") || hasErrorCode(response, 400)) {
+        const errorMessage = isParticipateResponse(response) && response.message 
+          ? response.message 
+          : '참여할 수 없습니다.';
+        alert(errorMessage);
         return null;
       }
       
-      // 두 번째 구조: response.data에 code가 있는 경우
-      if (nestedData?.code === "400" || nestedData?.code === 400) {
-        alert(nestedData.message || '참여할 수 없습니다.');
+      // 중첩된 에러 구조 확인
+      if (isParticipateResponse(response) && response.data && hasErrorCode(response.data, "400")) {
+        const nestedErrorMessage = typeof response.data === 'object' && response.data !== null && 'message' in response.data 
+          ? String(response.data.message)
+          : '참여할 수 없습니다.';
+        alert(nestedErrorMessage);
         return null;
       }
       
-      // 정상적인 경우 - 포인트 값 반환
-      // 먼저 nestedData에서 value 확인
-      const pointValue = nestedData?.value ?? (responseData as RouletteParticipateResponse)?.value;
-      if (pointValue !== undefined && pointValue !== null) {
-        return pointValue;
+      // 정상적인 응답에서 포인트 값 추출
+      if (isParticipateResponse(response) && response.data) {
+        const data = response.data as RouletteParticipateResponse;
+        const pointValue = data?.value;
+        if (pointValue !== undefined && pointValue !== null) {
+          return pointValue;
+        }
       }
       
       // 예상치 못한 응답 구조

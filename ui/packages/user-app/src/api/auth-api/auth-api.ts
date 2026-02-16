@@ -21,7 +21,11 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query';
 
-import type { GetCurrentUser200, Login200, LoginRequest } from '.././models';
+import type {
+  ApiResponseLoginResult,
+  ApiResponseSimpleUser,
+  LoginRequest,
+} from '.././models';
 
 import { axiosInstance } from '.././axiosInstance';
 
@@ -32,7 +36,7 @@ export const login = (
   options?: SecondParameter<typeof axiosInstance>,
   signal?: AbortSignal
 ) => {
-  return axiosInstance<Login200>(
+  return axiosInstance<ApiResponseLoginResult>(
     {
       url: `/api/auth/login`,
       method: 'POST',
@@ -113,7 +117,7 @@ export const getCurrentUser = (
   options?: SecondParameter<typeof axiosInstance>,
   signal?: AbortSignal
 ) => {
-  return axiosInstance<GetCurrentUser200>(
+  return axiosInstance<ApiResponseSimpleUser>(
     { url: `/api/auth/me`, method: 'GET', signal },
     options
   );

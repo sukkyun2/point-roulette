@@ -18,7 +18,7 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query';
 
-import type { GetStatus200 } from '.././models';
+import type { ApiResponseRouletteStatusQueryResponse } from '.././models';
 
 import { axiosInstance } from '.././axiosInstance';
 
@@ -28,7 +28,7 @@ export const getStatus = (
   options?: SecondParameter<typeof axiosInstance>,
   signal?: AbortSignal
 ) => {
-  return axiosInstance<GetStatus200>(
+  return axiosInstance<ApiResponseRouletteStatusQueryResponse>(
     { url: `/api/roulette/status`, method: 'GET', signal },
     options
   );

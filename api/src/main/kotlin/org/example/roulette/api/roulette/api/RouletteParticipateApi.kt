@@ -1,7 +1,6 @@
 package org.example.roulette.api.roulette.api
 
 import org.example.roulette.api.common.api.ApiResponse
-import org.example.roulette.api.common.api.SwaggerApiResponse
 import org.example.roulette.api.roulette.app.RouletteParticipateFailureException
 import org.example.roulette.api.roulette.app.RouletteParticipateResponse
 import org.example.roulette.api.roulette.app.RouletteParticipateService
@@ -15,7 +14,6 @@ class RouletteParticipateApi(
     private val rouletteParticipateService: RouletteParticipateService,
 ) {
     @PostMapping("/api/roulettes/current/participants")
-    @SwaggerApiResponse(schema = RouletteParticipateResponse::class)
     fun participate(
         @CurrentUser user: SimpleUser,
     ): ApiResponse<RouletteParticipateResponse> =

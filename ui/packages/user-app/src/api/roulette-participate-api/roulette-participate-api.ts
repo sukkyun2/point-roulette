@@ -13,7 +13,7 @@ import type {
   UseMutationResult,
 } from '@tanstack/react-query';
 
-import type { Participate200 } from '.././models';
+import type { ApiResponseRouletteParticipateResponse } from '.././models';
 
 import { axiosInstance } from '.././axiosInstance';
 
@@ -23,7 +23,7 @@ export const participate = (
   options?: SecondParameter<typeof axiosInstance>,
   signal?: AbortSignal
 ) => {
-  return axiosInstance<Participate200>(
+  return axiosInstance<ApiResponseRouletteParticipateResponse>(
     { url: `/api/roulette/participate`, method: 'POST', signal },
     options
   );

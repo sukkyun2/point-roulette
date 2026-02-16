@@ -1,5 +1,5 @@
 import { useGetOrderHistory } from '../api/order-history-query-api/order-history-query-api';
-import { OrderHistoryItemResponse, OrderStatus } from '../api/models';
+import { OrderHistoryItemResponse, OrderHistoryItemResponseStatus } from '../api/models';
 
 const OrderHistoryPage = () => {
   const { data, isLoading, error } = useGetOrderHistory();
@@ -41,22 +41,22 @@ const OrderHistoryPage = () => {
     });
   };
 
-  const getStatusLabel = (status: OrderStatus) => {
+  const getStatusLabel = (status: OrderHistoryItemResponseStatus) => {
     switch (status) {
-      case OrderStatus.COMPLETED:
+      case OrderHistoryItemResponseStatus.COMPLETED:
         return '주문 완료';
-      case OrderStatus.CANCELLED:
+      case OrderHistoryItemResponseStatus.CANCELLED:
         return '주문 취소';
       default:
         return '알 수 없음';
     }
   };
 
-  const getStatusColor = (status: OrderStatus) => {
+  const getStatusColor = (status: OrderHistoryItemResponseStatus) => {
     switch (status) {
-      case OrderStatus.COMPLETED:
+      case OrderHistoryItemResponseStatus.COMPLETED:
         return 'text-green-600 bg-green-50';
-      case OrderStatus.CANCELLED:
+      case OrderHistoryItemResponseStatus.CANCELLED:
         return 'text-red-600 bg-red-50';
       default:
         return 'text-gray-600 bg-gray-50';

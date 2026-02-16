@@ -3,6 +3,7 @@ import { useGetProducts } from '../api/product-list-query-api/product-list-query
 import { ProductListQueryResponse } from '../api/models';
 import { useAuth } from '../contexts/AuthContext';
 import { useCreateOrder } from '../api/order-api/order-api';
+import { isCanceledError, isGetProductsResponse } from '../utils/typeGuards';
 
 interface ProductItemProps {
   product: ProductListQueryResponse;
@@ -21,7 +22,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
 
   const handlePurchase = () => {
     if (canPurchase && product.id) {
-      onPurchase(product.id);
+      onPurchase(String(product.id));
     }
   };
 
@@ -68,7 +69,7 @@ export const ProductList: React.FC = () => {
 
   const handlePurchase = async (productId: string) => {
     try {
-      await createOrderMutation.mutateAsync({ data: { productId } });
+      await createOrderMutation.mutateAsync({ data: { productId: Number(productId) } });
       alert('주문이 완료되었습니다!');
       refreshUser(); // 구매 후 사용자 잔액 갱신
     } catch (error) {
@@ -87,7 +88,7 @@ export const ProductList: React.FC = () => {
 
   if (error) {
     // Don't show error for canceled requests
-    if ((error as any).name === 'CanceledError' || (error as any).code === 'ERR_CANCELED') {
+    if (isCanceledError(error)) {
       return (
         <div className="flex justify-center items-center py-8">
           <div className="text-gray-500">상품 목록을 불러오는 중...</div>
@@ -103,8 +104,12 @@ export const ProductList: React.FC = () => {
   }
 
   // Handle the data structure - it should be an ApiResponse with data array
-  const responseData = data as any;
-  const products = Array.isArray(responseData?.data) ? responseData.data : [];
+  const products: ProductListQueryResponse[] = (() => {
+    if (isGetProductsResponse(data) && data?.data && Array.isArray(data.data)) {
+      return data.data;
+    }
+    return [];
+  })();
   const userBalance = user?.userBalance || 0;
 
   return (

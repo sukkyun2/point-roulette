@@ -6,10 +6,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type OrderStatus = typeof OrderStatus[keyof typeof OrderStatus];
+export type OrderHistoryItemResponseStatus =
+  (typeof OrderHistoryItemResponseStatus)[keyof typeof OrderHistoryItemResponseStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const OrderStatus = {
-  CANCELLED: 'CANCELLED',
+export const OrderHistoryItemResponseStatus = {
   COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED',
 } as const;

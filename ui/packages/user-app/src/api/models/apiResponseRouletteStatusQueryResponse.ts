@@ -7,6 +7,8 @@
  */
 import type { RouletteStatusQueryResponse } from './rouletteStatusQueryResponse';
 
-export type GetStatus200AllOf = {
+export interface ApiResponseRouletteStatusQueryResponse {
+  code: string;
+  message?: string;
   data?: RouletteStatusQueryResponse;
-};
+}
