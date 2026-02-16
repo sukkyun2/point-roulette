@@ -14,7 +14,7 @@ class RouletteBudgetCreateAdminApi(
     @PostMapping("/api/admin/budgets")
     fun createRouletteBudget(
         @RequestBody request: RouletteBudgetCreateRequest,
-    ): ApiResponse<Nothing> {
+    ): ApiResponse<Unit> {
         rouletteBudgetCreateService.createRouletteBudget(request)
         return ApiResponse.ok()
     }

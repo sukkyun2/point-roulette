@@ -13,7 +13,7 @@ class RouletteCancelAdminApi(
     @PostMapping("/api/admin/roulettes/{rouletteHistoryId}/cancel")
     fun cancelRouletteParticipation(
         @PathVariable rouletteHistoryId: Long,
-    ): ApiResponse<Nothing> =
+    ): ApiResponse<Unit> =
         try {
             rouletteCancelService.cancelParticipation(rouletteHistoryId)
             ApiResponse.ok()

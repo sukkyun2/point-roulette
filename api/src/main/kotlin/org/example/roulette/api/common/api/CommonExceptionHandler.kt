@@ -13,11 +13,11 @@ class CommonExceptionHandler {
     private val logger = LoggerFactory.getLogger(CommonExceptionHandler::class.java)
 
     @ExceptionHandler(NoDataException::class)
-    fun noDataException(ex: NoDataException): ApiResponse<Nothing> = ApiResponse.nodata()
+    fun noDataException(ex: NoDataException): ApiResponse<Unit> = ApiResponse.nodata()
 
     @ExceptionHandler(NoHandlerFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun noHandlerFoundException(ex: NoHandlerFoundException): ApiResponse<Nothing> {
+    fun noHandlerFoundException(ex: NoHandlerFoundException): ApiResponse<Unit> {
         logger.warn(ex.message)
 
         return ApiResponse.badRequest(ex.message)
@@ -25,7 +25,7 @@ class CommonExceptionHandler {
 
     @ExceptionHandler(Exception::class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    fun handleException(ex: Exception): ApiResponse<Nothing> {
+    fun handleException(ex: Exception): ApiResponse<Unit> {
         logger.error(ex.message, ex)
 
         return ApiResponse.error("서버 오류가 발생했습니다: ${ex.message}")

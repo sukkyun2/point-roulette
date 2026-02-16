@@ -16,7 +16,7 @@ class RouletteBudgetUpdateAdminApi(
     fun updateRouletteBudget(
         @PathVariable budgetId: Long,
         @RequestBody request: RouletteBudgetUpdateRequest,
-    ): ApiResponse<Nothing> {
+    ): ApiResponse<Unit> {
         rouletteBudgetUpdateService.updateRouletteBudget(request)
         return ApiResponse.ok()
     }

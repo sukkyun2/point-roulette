@@ -13,7 +13,7 @@ class OrderCancelAdminApi(
     @PostMapping("/api/admin/orders/{orderId}/cancel")
     fun cancelOrder(
         @PathVariable orderId: Long,
-    ): ApiResponse<Nothing> =
+    ): ApiResponse<Unit> =
         try {
             orderCancelService.cancelOrder(orderId)
             ApiResponse.ok()

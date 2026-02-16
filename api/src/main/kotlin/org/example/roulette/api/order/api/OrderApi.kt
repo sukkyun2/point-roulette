@@ -17,7 +17,7 @@ class OrderApi(
     fun createOrder(
         @CurrentUser user: SimpleUser,
         @RequestBody request: OrderRequest,
-    ): ApiResponse<Nothing> =
+    ): ApiResponse<Unit> =
         try {
             orderService.createOrder(user.id, request.productId)
             ApiResponse.ok()
