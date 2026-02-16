@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.security.SecurityRequirement
 import io.swagger.v3.oas.models.security.SecurityScheme
 import org.example.roulette.api.common.api.SwaggerApiResponse
 import org.springdoc.core.customizers.OperationCustomizer
+import org.springdoc.core.models.GroupedOpenApi
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
@@ -44,6 +45,25 @@ class SwaggerConfig {
                     ),
             )
     }
+
+    @Bean
+    fun userApi(): GroupedOpenApi =
+        GroupedOpenApi
+            .builder()
+            .group("user")
+            .displayName("01-User API")
+            .pathsToMatch("/api/**")
+            .pathsToExclude("/api/admin/**")
+            .build()
+
+    @Bean
+    fun adminApi(): GroupedOpenApi =
+        GroupedOpenApi
+            .builder()
+            .group("admin")
+            .displayName("02-Admin API")
+            .pathsToMatch("/api/admin/**")
+            .build()
 
     @Bean
     fun swaggerCustomizer(): OperationCustomizer =
