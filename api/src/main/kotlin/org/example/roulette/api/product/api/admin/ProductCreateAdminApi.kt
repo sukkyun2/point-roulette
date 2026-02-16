@@ -1,6 +1,7 @@
 package org.example.roulette.api.product.api.admin
 
 import org.example.roulette.api.common.api.ApiResponse
+import org.example.roulette.api.common.app.ValidationException
 import org.example.roulette.api.product.app.CreateProductRequest
 import org.example.roulette.api.product.app.ProductCreateService
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,8 +15,11 @@ class ProductCreateAdminApi(
     @PostMapping("/api/admin/products")
     fun createProduct(
         @RequestBody request: CreateProductRequest,
-    ): ApiResponse<Unit> {
-        productCreateService.createProduct(request)
-        return ApiResponse.ok()
-    }
+    ): ApiResponse<Unit> =
+        try {
+            productCreateService.createProduct(request)
+            ApiResponse.ok()
+        } catch (ex: ValidationException) {
+            ApiResponse.badRequest(ex.message)
+        }
 }

@@ -1,6 +1,7 @@
 package org.example.roulette.api.product.api.admin
 
 import org.example.roulette.api.common.api.ApiResponse
+import org.example.roulette.api.common.app.ValidationException
 import org.example.roulette.api.product.app.ProductUpdateRequest
 import org.example.roulette.api.product.app.ProductUpdateService
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,8 +17,11 @@ class ProductUpdateAdminApi(
     fun updateProduct(
         @PathVariable id: Long,
         @RequestBody request: ProductUpdateRequest,
-    ): ApiResponse<Unit> {
-        productUpdateService.updateProduct(id, request)
-        return ApiResponse.ok()
-    }
+    ): ApiResponse<Unit> =
+        try {
+            productUpdateService.updateProduct(id, request)
+            ApiResponse.ok()
+        } catch (ex: ValidationException) {
+            ApiResponse.badRequest(ex.message)
+        }
 }
