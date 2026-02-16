@@ -26,9 +26,21 @@ spring:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
 
+  mvc:
+    throw-exception-if-no-handler-found: true
+  
+  web:
+    resources:
+      add-mappings: false
+      static-locations: classpath:/META-INF/resources/
+
 jwt:
   secret: ${JWT_SECRET:default}
   expiration: 600000  # 10분 (milliseconds)
 
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
