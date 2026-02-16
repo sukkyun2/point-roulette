@@ -1,8 +1,15 @@
+import { useEffect } from 'react';
 import { useGetPointHistory } from '../api/point-history-query-api/point-history-query-api';
+import { useRefetch } from '../contexts/RefetchContext';
 import { PointHistoryItemResponse, PointHistoryItemResponseType } from '../api/models';
 
 const PointHistoryPage = () => {
-  const { data, isLoading, error } = useGetPointHistory();
+  const { registerRefetch } = useRefetch();
+  const { data, isLoading, error, refetch } = useGetPointHistory();
+
+  useEffect(() => {
+    registerRefetch('point-history', refetch);
+  }, [registerRefetch, refetch]);
 
   if (isLoading) {
     return (

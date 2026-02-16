@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RouletteWheel from './RouletteWheel';
 import { useAuth } from '../contexts/AuthContext';
+import { useRefetch } from '../contexts/RefetchContext';
 import { useRouletteStatus } from '../hooks/useRouletteStatus';
 
 export const RoulettePage = () => {
   const [result, setResult] = useState<number | null>(null);
   const { refreshUser } = useAuth();
+  const { registerRefetch } = useRefetch();
   const { data: rouletteStatus, isLoading, isError, refetch } = useRouletteStatus();
+
+  useEffect(() => {
+    registerRefetch('roulette', refetch);
+  }, [registerRefetch, refetch]);
 
   if (isLoading) {
     return (

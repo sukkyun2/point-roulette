@@ -1,8 +1,15 @@
+import { useEffect } from 'react';
 import { useGetOrderHistory } from '../api/order-history-query-api/order-history-query-api';
+import { useRefetch } from '../contexts/RefetchContext';
 import { OrderHistoryItemResponse, OrderHistoryItemResponseStatus } from '../api/models';
 
 const OrderHistoryPage = () => {
-  const { data, isLoading, error } = useGetOrderHistory();
+  const { registerRefetch } = useRefetch();
+  const { data, isLoading, error, refetch } = useGetOrderHistory();
+
+  useEffect(() => {
+    registerRefetch('order-history', refetch);
+  }, [registerRefetch, refetch]);
 
   if (isLoading) {
     return (

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useGetProducts1 as useGetProducts } from '../api/product-list-query-api/product-list-query-api';
 import { ProductListQueryResponse } from '../api/models';
 import { useAuth } from '../contexts/AuthContext';
+import { useRefetch } from '../contexts/RefetchContext';
 import { useCreateOrder } from '../api/order-api/order-api';
 import { isCanceledError, isGetProductsResponse } from '../utils/typeGuards';
 
@@ -64,8 +65,13 @@ const ProductItem: React.FC<ProductItemProps> = ({
 
 export const ProductList: React.FC = () => {
   const { user, refreshUser } = useAuth();
-  const { data, isLoading, error } = useGetProducts();
+  const { registerRefetch } = useRefetch();
+  const { data, isLoading, error, refetch } = useGetProducts();
   const createOrderMutation = useCreateOrder();
+
+  useEffect(() => {
+    registerRefetch('products', refetch);
+  }, [registerRefetch, refetch]);
 
   const handlePurchase = async (productId: string) => {
     try {
