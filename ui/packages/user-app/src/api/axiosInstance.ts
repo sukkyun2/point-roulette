@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { showAppAlert } from '../utils/alert';
 
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
@@ -39,12 +40,12 @@ axiosClient.interceptors.response.use(
     if (error.response?.status === 401) {
       // Handle unauthorized access
       localStorage.removeItem('token');
-      alert('다시 로그인해주세요.');
+      showAppAlert('다시 로그인해주세요.');
       window.location.reload();
     } else if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK') {
       // Only show alert for actual network connection errors
       console.error('Network connection error:', error);
-      alert('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
+      showAppAlert('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
     } else if (error.response) {
       // Server responded with error status
       console.error('API Error:', error.response.status, error.response.data);

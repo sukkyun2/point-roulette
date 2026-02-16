@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLoginMutation } from '../hooks/useLoginMutation';
 import { useAuth } from '../contexts/AuthContext';
+import { showAppAlert } from '../utils/alert';
 
 export const LoginForm: React.FC = () => {
   const [nickname, setNickname] = useState('');
@@ -8,7 +9,7 @@ export const LoginForm: React.FC = () => {
 
   const loginMutation = useLoginMutation({
     onSuccess: userData => {
-      if (!userData) return alert('등록되지않은 닉네임입니다');
+      if (!userData) return showAppAlert('등록되지않은 닉네임입니다');
 
       localStorage.setItem('token', userData.token);
       setUser({
@@ -24,7 +25,7 @@ export const LoginForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!nickname.trim()) {
-      alert('닉네임을 입력해주세요.');
+      showAppAlert('닉네임을 입력해주세요.');
       return;
     }
 

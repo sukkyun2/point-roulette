@@ -1,5 +1,6 @@
 import { useParticipate } from '../api/roulette-participate-api/roulette-participate-api';
 import { RouletteParticipateResponse } from '../api/models';
+import { showAppAlert } from '../utils/alert';
 
 interface RouletteParticipationResult {
   participate: () => Promise<number | null>;
@@ -13,7 +14,7 @@ export const useRouletteParticipation = (): RouletteParticipationResult => {
       const response = await participateMutation.mutateAsync();
       
       if(response.code === '400'){
-        alert(response.message);
+        showAppAlert(response.message);
         return null;
       }
 

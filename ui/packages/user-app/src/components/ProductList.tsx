@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useRefetch } from '../contexts/RefetchContext';
 import { useCreateOrder } from '../api/order-api/order-api';
 import { isCanceledError, isGetProductsResponse } from '../utils/typeGuards';
+import { showAppAlert } from '../utils/alert';
 
 interface ProductItemProps {
   product: ProductListQueryResponse;
@@ -76,11 +77,11 @@ export const ProductList: React.FC = () => {
   const handlePurchase = async (productId: string) => {
     try {
       await createOrderMutation.mutateAsync({ data: { productId: Number(productId) } });
-      alert('주문이 완료되었습니다!');
+      showAppAlert('주문이 완료되었습니다!');
       refreshUser(); // 구매 후 사용자 잔액 갱신
     } catch (error) {
       console.error('주문 실패:', error);
-      alert('주문에 실패했습니다. 다시 시도해주세요.');
+      showAppAlert('주문에 실패했습니다. 다시 시도해주세요.');
     }
   };
 

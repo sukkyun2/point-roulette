@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
 import { useRouletteParticipation } from '../hooks/useRouletteParticipation';
+import { showAppAlert } from '../utils/alert';
 
 interface RouletteWheelProps {
   onResult?: (points: number) => void;
@@ -39,7 +40,7 @@ export default function RouletteWheel({ onResult }: RouletteWheelProps) {
           setPrizeNumber(resultIndex);
           setMustSpin(true);
         } else {
-          alert('알 수 없는 포인트 값입니다.');
+          showAppAlert('알 수 없는 포인트 값입니다.');
         }
       }
       // 에러인 경우 participate 함수에서 이미 alert 처리됨
