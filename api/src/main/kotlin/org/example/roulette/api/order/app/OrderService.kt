@@ -32,11 +32,12 @@ class OrderService(
             throw InsufficientPointException()
         }
 
-        val order = Order.create(
-            userId = userId,
-            productId = product.id,
-            priceAtOrder = product.price,
-        )
+        val order =
+            Order.create(
+                userId = userId,
+                productId = product.id,
+                priceAtOrder = product.price,
+            )
 
         val savedOrder = orderRepository.save(order)
 

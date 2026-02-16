@@ -2,7 +2,6 @@ package org.example.roulette.api.point.app
 
 import org.example.roulette.api.point.domain.PointHistory
 import org.example.roulette.api.point.domain.PointHistoryRepository
-import org.example.roulette.api.point.domain.PointType
 import org.example.roulette.api.user.domain.UserQueryService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -52,6 +51,9 @@ class PointHistoryQueryService(
                 to = thirtyDaysAgo,
             )
 
-        return expiringSoonPoints.filter { !it.isExpired() }.filter { it.type == PointType.EARN }.sumOf { it.amount }
+        return expiringSoonPoints
+            .filter { !it.isExpired() }
+            .filter { it.type.isPositive() }
+            .sumOf { it.amount }
     }
 }

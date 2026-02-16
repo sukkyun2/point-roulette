@@ -17,6 +17,6 @@ class RouletteHistoryListQueryAdminApi(
         @RequestParam(required = false) status: RouletteStatus?,
     ): ApiResponse<RouletteParticipationHistoryListQueryResponse> {
         val response = rouletteHistoryListQueryService.getParticipationHistories(status)
-        return ApiResponse.ok(response)
+        return ApiResponse.ok(RouletteParticipationHistoryListQueryResponse(response))
     }
 }

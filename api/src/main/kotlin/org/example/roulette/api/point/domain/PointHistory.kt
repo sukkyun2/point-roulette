@@ -25,7 +25,6 @@ class PointHistory(
     @Column(name = "type")
     val type: PointType,
     @Enumerated(EnumType.STRING)
-    //FIXME referencetypeid
     @Column(name = "reference_type")
     val referenceType: ReferenceType,
     @Column(name = "reference_id")
@@ -47,6 +46,13 @@ enum class PointType {
     EARN,
     USE,
     REFUND,
+    ;
+
+    fun isPositive(): Boolean =
+        when (this) {
+            EARN, REFUND -> true
+            USE -> false
+        }
 }
 
 enum class ReferenceType {

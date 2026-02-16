@@ -10,7 +10,7 @@ data class ApiResponse<out T>(
 
         fun ok(): ApiResponse<Unit> = ApiResponse("200", "성공", null)
 
-        fun badRequest(message: String?): ApiResponse<Unit> = ApiResponse("400", message, null)
+        fun badRequest(message: String?): ApiResponse<Nothing> = ApiResponse("400", message, null)
 
         fun badRequest(): ApiResponse<Unit> = ApiResponse("400", null, null)
 

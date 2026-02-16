@@ -26,10 +26,20 @@ data class RouletteHistory(
     val earnPoint: Long,
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    val status: RouletteStatus = RouletteStatus.SUCCESS,
+    var status: RouletteStatus = RouletteStatus.SUCCESS,
     @Column(name = "created_at")
     val createdAt: LocalDateTime = LocalDateTime.now(),
-)
+) {
+    fun isCanceled() = status == RouletteStatus.CANCELED
+
+    fun cancel() {
+        if (isCanceled()) {
+            throw IllegalStateException("이미 취소된 룰렛 참여입니다.")
+        }
+
+        status = RouletteStatus.CANCELED
+    }
+}
 
 enum class RouletteStatus {
     SUCCESS,

@@ -47,14 +47,13 @@ class Order(
             userId: Long,
             productId: Long,
             priceAtOrder: Long,
-        ): Order {
-            return Order(
+        ): Order =
+            Order(
                 userId = userId,
                 productId = productId,
                 priceAtOrder = priceAtOrder,
                 status = OrderStatus.COMPLETED,
             )
-        }
     }
 }
 

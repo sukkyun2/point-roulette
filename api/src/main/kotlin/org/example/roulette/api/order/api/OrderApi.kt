@@ -19,7 +19,7 @@ class OrderApi(
         @RequestBody request: OrderRequest,
     ): ApiResponse<Unit> =
         try {
-            orderService.createOrder(user.id, request.productId)
+            orderService.createOrder(user.id, request)
             ApiResponse.ok()
         } catch (ex: InsufficientPointException) {
             ApiResponse.badRequest(ex.message)
