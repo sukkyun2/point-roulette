@@ -23,6 +23,8 @@ data class Product(
     val createdAt: LocalDateTime = LocalDateTime.now(),
     @Column(name = "updated_at")
     var updatedAt: LocalDateTime = LocalDateTime.now(),
+    @Column(name = "deleted_at")
+    var deletedAt: LocalDateTime? = null,
 ) {
     fun update(
         name: String,
@@ -33,4 +35,12 @@ data class Product(
             price = price,
             updatedAt = LocalDateTime.now(),
         )
+
+    fun softDelete(): Product =
+        this.copy(
+            deletedAt = LocalDateTime.now(),
+            updatedAt = LocalDateTime.now(),
+        )
+
+    fun isDeleted(): Boolean = deletedAt != null
 }

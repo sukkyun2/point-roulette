@@ -11,6 +11,6 @@ class ProductListQueryService(
 ) {
     fun findAll(): List<ProductListQueryResponse> =
         productRepository
-            .findAll()
+            .findAllNotDeleted()
             .map { ProductListQueryResponse.from(it) }
 }

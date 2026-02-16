@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useCreateProductMutation, useUpdateProductMutation } from '../hooks/useProductMutations';
+import { useCreateProductMutation, useUpdateProductMutation, useDeleteProductMutation } from '../hooks/useProductMutations';
 import ProductModal from './ProductModal';
+import DeleteConfirmModal from './DeleteConfirmModal';
 import type { ProductListQueryResponse } from '@shared/api-models';
 import { useGetProducts } from '../api/product-list-query-api/product-list-query-api.ts';
 
@@ -8,9 +9,11 @@ const ProductManagement = () => {
   const { data: productsResponse, isLoading, error } = useGetProducts();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<ProductListQueryResponse | null>(null);
+  const [deletingProduct, setDeletingProduct] = useState<ProductListQueryResponse | null>(null);
 
   const createMutation = useCreateProductMutation();
   const updateMutation = useUpdateProductMutation();
+  const deleteMutation = useDeleteProductMutation();
 
   const products = productsResponse?.data || [];
 
@@ -22,6 +25,21 @@ const ProductManagement = () => {
   const handleEdit = (product: ProductListQueryResponse) => {
     setEditingProduct(product);
     setIsModalOpen(true);
+  };
+
+  const handleDelete = (product: ProductListQueryResponse) => {
+    setDeletingProduct(product);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deletingProduct) return;
+    
+    try {
+      await deleteMutation.mutateAsync({ id: deletingProduct.id });
+      setDeletingProduct(null);
+    } catch (error) {
+      console.error('상품 삭제 실패:', error);
+    }
   };
 
   const handleSubmit = async (data: { name: string; price: number }) => {
@@ -117,12 +135,20 @@ const ProductManagement = () => {
                     {product.price.toLocaleString()}P
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button
-                      onClick={() => handleEdit(product)}
-                      className="text-blue-600 hover:text-blue-900 transition-colors"
-                    >
-                      수정
-                    </button>
+                    <div className="space-x-2">
+                      <button
+                        onClick={() => handleEdit(product)}
+                        className="text-blue-600 hover:text-blue-900 transition-colors"
+                      >
+                        수정
+                      </button>
+                      <button
+                        onClick={() => handleDelete(product)}
+                        className="text-red-600 hover:text-red-900 transition-colors"
+                      >
+                        삭제
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -140,6 +166,14 @@ const ProductManagement = () => {
         onSubmit={handleSubmit}
         initialData={editingProduct}
         isLoading={createMutation.isPending || updateMutation.isPending}
+      />
+
+      <DeleteConfirmModal
+        isOpen={!!deletingProduct}
+        onClose={() => setDeletingProduct(null)}
+        onConfirm={handleDeleteConfirm}
+        productName={deletingProduct?.name || ''}
+        isLoading={deleteMutation.isPending}
       />
     </div>
   );

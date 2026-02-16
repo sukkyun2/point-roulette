@@ -13,50 +13,40 @@ import type {
   UseMutationResult,
 } from '@tanstack/react-query';
 
-import type {
-  ApiResponseUnit,
-  OrderRequest,
-} from '@shared/api-models';
+import type { ApiResponseUnit } from '../../../../shared/src/api-models';
 
 import { axiosInstance } from '.././axiosInstance';
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-export const createOrder = (
-  orderRequest: OrderRequest,
-  options?: SecondParameter<typeof axiosInstance>,
-  signal?: AbortSignal
+export const deleteProduct = (
+  id: number,
+  options?: SecondParameter<typeof axiosInstance>
 ) => {
   return axiosInstance<ApiResponseUnit>(
-    {
-      url: `/api/orders`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: orderRequest,
-      signal,
-    },
+    { url: `/api/admin/products/${id}`, method: 'DELETE' },
     options
   );
 };
 
-export const getCreateOrderMutationOptions = <
+export const getDeleteProductMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createOrder>>,
+    Awaited<ReturnType<typeof deleteProduct>>,
     TError,
-    { data: OrderRequest },
+    { id: number },
     TContext
   >;
   request?: SecondParameter<typeof axiosInstance>;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof createOrder>>,
+  Awaited<ReturnType<typeof deleteProduct>>,
   TError,
-  { data: OrderRequest },
+  { id: number },
   TContext
 > => {
-  const mutationKey = ['createOrder'];
+  const mutationKey = ['deleteProduct'];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       'mutationKey' in options.mutation &&
@@ -66,41 +56,41 @@ export const getCreateOrderMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createOrder>>,
-    { data: OrderRequest }
+    Awaited<ReturnType<typeof deleteProduct>>,
+    { id: number }
   > = props => {
-    const { data } = props ?? {};
+    const { id } = props ?? {};
 
-    return createOrder(data, requestOptions);
+    return deleteProduct(id, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type CreateOrderMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createOrder>>
+export type DeleteProductMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteProduct>>
 >;
-export type CreateOrderMutationBody = OrderRequest;
-export type CreateOrderMutationError = unknown;
 
-export const useCreateOrder = <TError = unknown, TContext = unknown>(
+export type DeleteProductMutationError = unknown;
+
+export const useDeleteProduct = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createOrder>>,
+      Awaited<ReturnType<typeof deleteProduct>>,
       TError,
-      { data: OrderRequest },
+      { id: number },
       TContext
     >;
     request?: SecondParameter<typeof axiosInstance>;
   },
   queryClient?: QueryClient
 ): UseMutationResult<
-  Awaited<ReturnType<typeof createOrder>>,
+  Awaited<ReturnType<typeof deleteProduct>>,
   TError,
-  { data: OrderRequest },
+  { id: number },
   TContext
 > => {
-  const mutationOptions = getCreateOrderMutationOptions(options);
+  const mutationOptions = getDeleteProductMutationOptions(options);
 
   return useMutation(mutationOptions, queryClient);
 };

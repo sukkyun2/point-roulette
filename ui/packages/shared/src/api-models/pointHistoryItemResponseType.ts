@@ -14,6 +14,4 @@ export const PointHistoryItemResponseType = {
   EARN: 'EARN',
   USE: 'USE',
   REFUND: 'REFUND',
-  RECLAIM: 'RECLAIM',
-  EXPIRE: 'EXPIRE',
 } as const;

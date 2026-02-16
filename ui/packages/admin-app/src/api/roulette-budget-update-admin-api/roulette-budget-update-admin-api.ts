@@ -14,7 +14,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  ApiResponse,
+  ApiResponseUnit,
   RouletteBudgetUpdateRequest,
 } from '@shared/api-models';
 
@@ -27,7 +27,7 @@ export const updateRouletteBudget = (
   rouletteBudgetUpdateRequest: RouletteBudgetUpdateRequest,
   options?: SecondParameter<typeof axiosInstance>
 ) => {
-  return axiosInstance<ApiResponse>(
+  return axiosInstance<ApiResponseUnit>(
     {
       url: `/api/admin/budgets/${budgetId}`,
       method: 'PUT',

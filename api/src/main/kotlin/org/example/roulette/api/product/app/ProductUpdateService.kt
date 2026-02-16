@@ -2,7 +2,6 @@ package org.example.roulette.api.product.app
 
 import org.example.roulette.api.common.app.NoDataException
 import org.example.roulette.api.product.domain.ProductRepository
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,9 +17,7 @@ class ProductUpdateService(
     ) {
         validator.validate(request)
 
-        val product =
-            productRepository.findByIdOrNull(id)
-                ?: throw NoDataException()
+        val product = productRepository.findByIdNotDeleted(id) ?: throw NoDataException()
 
         val updatedProduct =
             product.update(
