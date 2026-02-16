@@ -8,9 +8,10 @@ import java.time.LocalDate
 
 @Repository
 interface RouletteHistoryRepository : JpaRepository<RouletteHistory, Long> {
-    fun existsByUserIdAndEventDate(
+    fun existsByUserIdAndEventDateAndStatus(
         userId: Long,
         eventDate: LocalDate,
+        status: RouletteStatus?,
     ): Boolean
 
     @Query("SELECT COUNT(DISTINCT rh.userId) FROM RouletteHistory rh WHERE rh.eventDate = :eventDate")
