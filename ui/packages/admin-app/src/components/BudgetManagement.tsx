@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useGetRouletteBudgetList } from '@/api/roulette-budget-list-query-admin-api/roulette-budget-list-query-admin-api';
-import { useCreateRouletteBudget } from '@/api/roulette-budget-create-admin-api/roulette-budget-create-admin-api';
-import { useUpdateRouletteBudget } from '@/api/roulette-budget-update-admin-api/roulette-budget-update-admin-api';
+import { useGetRouletteBudgetList } from '../api/roulette-budget-list-query-admin-api/roulette-budget-list-query-admin-api';
+import { useCreateRouletteBudget } from '../api/roulette-budget-create-admin-api/roulette-budget-create-admin-api';
+import { useUpdateRouletteBudget } from '../api/roulette-budget-update-admin-api/roulette-budget-update-admin-api';
 import type { Item, RouletteBudgetCreateRequest, RouletteBudgetUpdateRequest } from '@shared/api-models';
 
 const BudgetManagement = () => {
@@ -53,7 +53,7 @@ const BudgetManagement = () => {
       totalBudget: parseInt(budgetAmount)
     };
     
-    const budgetId = budgetData?.data.items.findIndex(item => 
+    const budgetId = budgetData?.data?.items?.findIndex((item: Item) => 
       item.budgetDate === selectedBudget.budgetDate
     );
     
@@ -145,7 +145,7 @@ const BudgetManagement = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {budgetData?.data.items?.map((budget, index) => (
+            {budgetData?.data?.items?.map((budget: Item, index: number) => (
               <tr key={index} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {formatDate(budget.budgetDate)}
@@ -174,7 +174,7 @@ const BudgetManagement = () => {
           </tbody>
         </table>
 
-        {budgetData?.data.items?.length === 0 && (
+        {budgetData?.data?.items?.length === 0 && (
           <div className="text-center py-12">
             <div className="text-gray-500">등록된 예산이 없습니다.</div>
             <button
