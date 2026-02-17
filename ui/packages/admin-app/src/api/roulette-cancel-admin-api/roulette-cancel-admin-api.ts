@@ -24,7 +24,7 @@ export const cancelRouletteParticipation = (
   options?: SecondParameter<typeof axiosInstance>,
   signal?: AbortSignal
 ) => {
-  return axiosInstance<ApiResponseUnit>(
+  return axiosInstance<ApiResponse>(
     {
       url: `/api/admin/roulettes/${rouletteHistoryId}/cancel`,
       method: 'POST',

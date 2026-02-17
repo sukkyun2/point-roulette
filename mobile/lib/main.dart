@@ -36,6 +36,7 @@ class WebViewPage extends StatefulWidget {
 class _WebViewPageState extends State<WebViewPage> {
   late final WebViewController controller;
   bool _hasError = false;
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -46,14 +47,25 @@ class _WebViewPageState extends State<WebViewPage> {
         NavigationDelegate(
           onWebResourceError: (WebResourceError error) {
             print('WebView Error: ${error.description}');
+            print('Error code: ${error.errorCode}');
+            print('Error type: ${error.errorType}');
             setState(() {
               _hasError = true;
+              _isLoading = false;
             });
             _loadFallbackPage();
           },
           onPageStarted: (String url) {
+            print('Page started loading: $url');
             setState(() {
               _hasError = false;
+              _isLoading = true;
+            });
+          },
+          onPageFinished: (String url) {
+            print('Page finished loading: $url');
+            setState(() {
+              _isLoading = false;
             });
           },
         ),
@@ -99,11 +111,61 @@ class _WebViewPageState extends State<WebViewPage> {
     controller.loadRequest(Uri.parse(EnvConfig.webUrl));
   }
 
+  Future<bool> _onWillPop() async {
+    if (await controller.canGoBack()) {
+      controller.goBack();
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: WebViewWidget(controller: controller),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+        
+        final shouldPop = await _onWillPop();
+        if (shouldPop && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Stack(
+            children: [
+              WebViewWidget(controller: controller),
+              if (_isLoading)
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              if (_hasError)
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.error_outline,
+                        size: 64,
+                        color: Colors.red,
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        '페이지를 불러올 수 없습니다',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: _retryConnection,
+                        child: const Text('다시 시도'),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
