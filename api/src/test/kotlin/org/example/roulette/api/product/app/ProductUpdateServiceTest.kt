@@ -13,7 +13,6 @@ import org.example.roulette.api.common.app.NoDataException
 import org.example.roulette.api.common.app.ValidationException
 import org.example.roulette.api.product.domain.Product
 import org.example.roulette.api.product.domain.ProductRepository
-import org.springframework.data.repository.findByIdOrNull
 import java.time.LocalDateTime
 
 class ProductUpdateServiceTest :
@@ -42,7 +41,7 @@ class ProductUpdateServiceTest :
                 val slot = slot<Product>()
 
                 justRun { validator.validate(request) }
-                every { productRepository.findByIdOrNull(productId) } returns existingProduct
+                every { productRepository.findByIdNotDeleted(productId) } returns existingProduct
                 every { existingProduct.update(request.name, request.price) } returns updatedProduct
                 every { productRepository.save(capture(slot)) } returns savedProduct
 
@@ -54,7 +53,7 @@ class ProductUpdateServiceTest :
                 capturedProduct shouldBe updatedProduct
 
                 verify(exactly = 1) { validator.validate(request) }
-                verify(exactly = 1) { productRepository.findByIdOrNull(productId) }
+                verify(exactly = 1) { productRepository.findByIdNotDeleted(productId) }
                 verify(exactly = 1) { existingProduct.update(request.name, request.price) }
                 verify(exactly = 1) { productRepository.save(updatedProduct) }
             }
@@ -65,7 +64,7 @@ class ProductUpdateServiceTest :
                 val request = createProductUpdateRequest(name = "수정된 상품", price = 2000L)
 
                 justRun { validator.validate(request) }
-                every { productRepository.findByIdOrNull(productId) } returns null
+                every { productRepository.findByIdNotDeleted(productId) } returns null
 
                 // when & then
                 shouldThrow<NoDataException> {
@@ -73,7 +72,7 @@ class ProductUpdateServiceTest :
                 }
 
                 verify(exactly = 1) { validator.validate(request) }
-                verify(exactly = 1) { productRepository.findByIdOrNull(productId) }
+                verify(exactly = 1) { productRepository.findByIdNotDeleted(productId) }
                 verify(exactly = 0) { productRepository.save(any()) }
             }
 
@@ -90,7 +89,7 @@ class ProductUpdateServiceTest :
                 }
 
                 verify(exactly = 1) { validator.validate(request) }
-                verify(exactly = 0) { productRepository.findByIdOrNull(any()) }
+                verify(exactly = 0) { productRepository.findByIdNotDeleted(any()) }
                 verify(exactly = 0) { productRepository.save(any()) }
             }
 
@@ -107,7 +106,7 @@ class ProductUpdateServiceTest :
                 }
 
                 verify(exactly = 1) { validator.validate(request) }
-                verify(exactly = 0) { productRepository.findByIdOrNull(any()) }
+                verify(exactly = 0) { productRepository.findByIdNotDeleted(any()) }
                 verify(exactly = 0) { productRepository.save(any()) }
             }
 
@@ -124,7 +123,7 @@ class ProductUpdateServiceTest :
                 }
 
                 verify(exactly = 1) { validator.validate(request) }
-                verify(exactly = 0) { productRepository.findByIdOrNull(any()) }
+                verify(exactly = 0) { productRepository.findByIdNotDeleted(any()) }
                 verify(exactly = 0) { productRepository.save(any()) }
             }
         }

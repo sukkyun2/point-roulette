@@ -41,7 +41,7 @@ class ProductListQueryServiceTest :
                         ProductListQueryResponse(id = 3L, name = "상품3", price = 3000L),
                     )
 
-                every { productRepository.findAll() } returns products
+                every { productRepository.findAllNotDeleted() } returns products
 
                 // when
                 val result = productListQueryService.findAll()
@@ -50,14 +50,14 @@ class ProductListQueryServiceTest :
                 result shouldHaveSize 3
                 result shouldBe expectedResponses
 
-                verify(exactly = 1) { productRepository.findAll() }
+                verify(exactly = 1) { productRepository.findAllNotDeleted() }
             }
 
             test("상품 목록이 비어있을 때 빈 리스트가 반환되어야 한다") {
                 // given
                 val products = emptyList<Product>()
 
-                every { productRepository.findAll() } returns products
+                every { productRepository.findAllNotDeleted() } returns products
 
                 // when
                 val result = productListQueryService.findAll()
@@ -65,7 +65,7 @@ class ProductListQueryServiceTest :
                 // then
                 result.shouldBeEmpty()
 
-                verify(exactly = 1) { productRepository.findAll() }
+                verify(exactly = 1) { productRepository.findAllNotDeleted() }
             }
         }
     }) {
