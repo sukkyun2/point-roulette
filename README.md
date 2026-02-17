@@ -11,6 +11,7 @@
         ├── user-app          # 사용자 페이지
         ├── shared            # 공유하는 내용(API Schema, package 등)
         ├── admid-app         # 관리자 페이지
+  ├── prompt/                 # 사용한 프롬프트 
 ```
 
 ## 웹 어드민 구현 사항
@@ -117,9 +118,10 @@
 
 - 사용자는 A부터 Z까지 26개의 유저를 미리 생성하였습니다.
 - 로그인 화면에서 대문자 하나 입력시 로그인 가능합니다.
+- 어드민은 별도 로그인이 필요없습니다.
 
 ### 프롬프트 관련
-- 프롬프트를 prompt.md 파일에 담긴했지만 별도로 저장한 MD 파일 첨부합니다.
+- 프롬프트를 [prompt.md](https://github.com/sukkyun2/point-roulette/blob/main/prompt/prompt.md) 파일에 담긴했지만 별도로 저장한 MD 파일 첨부합니다.
 
 ## 접속 주소
 
