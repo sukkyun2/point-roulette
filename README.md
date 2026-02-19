@@ -129,3 +129,8 @@
 - 어드민 접속 URL : [https://point-roulette-admin-56bw99imv-goobghd-gmailcoms-projects.vercel.app/](https://point-roulette-admin-56bw99imv-goobghd-gmailcoms-projects.vercel.app/)
 - 백엔드 API 문서 : [https://point-roulette-api.onrender.com/swagger-ui/index.html](https://point-roulette-api.onrender.com/swagger-ui/index.html)
 - Flutter 앱 APK 파일 : https://drive.google.com/file/d/1jbvRVlpHJ2nZiXXLvrcK0zw64EbnV7Yx/view?usp=drive_link
+
+> 추가 사항
+> [어드민 접속 URL](https://point-roulette-admin-56bw99imv-goobghd-gmailcoms-projects.vercel.app/) 권한 추가하였습니다.
+> 만약 접속안되신다면 해당 URL로 접속부탁드립니다. [https://point-roulette-admin-rho.vercel.app/](https://point-roulette-admin-rho.vercel.app/)
+
